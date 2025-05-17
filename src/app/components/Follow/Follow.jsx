@@ -11,30 +11,32 @@ import useKeyboardNavigation from "../../hooks/useKeyboardNavigation";
 export default function FollowUs() {
   const { translateList } = useLanguage();
   const menuItems = translateList("home", "follow_us");
-  const Insta = "https://www.instagram.com/latore.atelier?igsh=Y3RvbWZhZW12Zmxj";
+  const Insta = "https://www.instagram.com/pic_best_moments";
 
   const images = [
-    { src: "/16.avif", link: Insta },
+    { src: "/1.avif", link: Insta },
     // { src: "/17.avif", link: Insta },
     // { src: "/18.avif", link: Insta },
-    { src: "/19.avif", link: Insta },
+    { src: "/2.avif", link: Insta },
     // { src: "/20.avif", link: Insta },
     // { src: "/21.avif", link: Insta },
-    { src: "/22.avif", link: Insta },
+    { src: "/3.avif", link: Insta },
     // { src: "/23.avif", link: Insta },
     // { src: "/24.avif", link: Insta },
-    { src: "/25.avif", link: Insta },
+    { src: "/4.avif", link: Insta },
     // { src: "/26.avif", link: Insta },
     // { src: "/27.avif", link: Insta },
-    { src: "/28.avif", link: Insta },
+    { src: "/5.avif", link: Insta },
     // { src: "/29.avif", link: Insta },
     // { src: "/30.avif", link: Insta },
-    { src: "/31.avif", link: Insta },
+    { src: "/6.avif", link: Insta },
     // { src: "/32.avif", link: Insta },
     // { src: "/33.avif", link: Insta },
-    { src: "/34.avif", link: Insta },
-    // { src: "/35.avif", link: Insta },
-    // { src: "/36.avif", link: Insta },
+    { src: "/7.avif", link: Insta },
+    { src: "/8.avif", link: Insta },
+    { src: "/9.avif", link: Insta },
+    { src: "/10.avif", link: Insta },
+    
   ];
 
   // Контролюємо кількість відображуваних зображень

@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from "next/image";
 import { useLanguage } from "../../Functions/useLanguage";
 
@@ -6,66 +7,76 @@ export default function About() {
   const menuItems = translateList("home", "about");
 
   return (
-    <section className="bg-white dark:bg-gray-900 py-12 px-6 sm:px-12" id="about">
-      <div className="max-w-8xl mx-auto relative">
-       
-        {/* Макет для планшетів та десктопів */}
-   
-<div className="relative hidden sm:grid grid-cols-1 md:grid-cols-2 items-center md:gap-8 xl:gap-2">
-          {/* Зображення */}
-          <div className="flex justify-start relative group xl:ml-36 overflow-hidden">
-  <Image
-    src="/hoom/about.avif"
-    alt="About Image"
-    width={500}
-    height={600}
-    className="rounded-lg object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-  />
-          </div>
-
-<div className="mt-16   bg-white dark:bg-gray-900 mb-48 w-full">
-            <h2 className=" text-2xl sm:text-4xl font-extrabold text-gray dark:text-white mb-4">{menuItems[0]}</h2>
-            <p className="mt-8 text-gray dark:text-gray-300 text-lg lg:text-2xl font-extrabold">
-            {menuItems[1]}
-             
+    <section
+      className="bg-white dark:bg-gray-900 py-12 px-6 sm:px-12"
+      id="about"
+    >
+      <Head>
+        <title>About - Your Photography Name</title>
+        <meta
+          name="description"
+          content="Learn about your local Barcelona photographer specializing in romantic couples, engagement, proposal, and more."
+        />
+      </Head>
+      <div className="max-w-7xl mx-auto relative">
+        {/* Layout for Tablets and Desktops */}
+        <div className="hidden sm:flex flex-col md:flex-row items-center md:gap-8">
+          {/* Text Content */}
+          <div className="flex-1 text-center text-gray-600 dark:text-gray-300">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4 uppercase">
+              {menuItems[0]}
+            </h2>
+            <p className="text-lg md:text-xl leading-relaxed mb-4">
+              {menuItems[1]}
             </p>
-            <p className="mt-4 text-gray dark:text-gray-300 text-base lg:text-2xl font-extrabold">
-            {menuItems[2]}
-              </p>
-              <p className="mt-4 text-gray dark:text-gray-300 text-base lg:text-2xl font-extrabold">
+            <p className="text-lg md:text-xl leading-relaxed mb-4">
+              {menuItems[2]}
+            </p>
+            <p className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-white uppercase">
               {menuItems[3]}
-              </p>
+            </p>
           </div>
-        </div>
 
-        {/* Макет для мобільних (окремо від grid) */}
-        <div className="relative sm:hidden flex justify-center">
-          <div className="relative w-full">
-            {/* Зображення */}
-            <div className="relative group w-full h-[450px] sm:h-[600px] rounded-lg overflow-hidden">
+          {/* Image */}
+          <div className="flex-1 flex justify-center mt-8 md:mt-0">
+            <div className="relative group w-full max-w-md h-[450px] md:h-[600px] rounded-lg overflow-hidden">
               <Image
-                src="/hoom/about.avif"
+                src="/hoom/Propose.avif"
                 alt="About Image"
                 fill
                 style={{ objectFit: "cover" }}
-                className="rounded-lg  object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-  />
-               
-             
+                className="rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Layout for Mobile */}
+        <div className="relative sm:hidden flex justify-center">
+          <div className="relative w-full">
+            {/* Image */}
+            <div className="relative group w-full h-[450px] rounded-lg overflow-hidden">
+              <Image
+                src="/hoom/Propose.avif"
+                alt="About Image"
+                fill
+                style={{ objectFit: "cover" }}
+                className="rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
             </div>
 
-            {/* Текстовий блок на всю ширину */}
+            {/* Text Overlay on Mobile */}
             <div
-  className={`absolute bottom-[5%] left-0 w-full 
-    bg-white/90 dark:bg-gray-900/80 p-6 text-center transition-all duration-700`}
->
-
-              <h2 className="text-xl font-extrabold text-gray dark:text-white mb-2">{menuItems[0]}</h2>
-              <p className="text-gray font-extrabold dark:text-white text-xs sm:text-base lg:text-xl ">
-              {menuItems[1]}
+              className="absolute bottom-[5%] left-0 w-full bg-white/90 dark:bg-gray-900/80 p-6 text-center transition-all duration-700"
+            >
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 uppercase">
+                {menuItems[0]}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                {menuItems[1]}
               </p>
-              <p className="text-gray font-extrabold dark:text-white text-xs sm:text-sm md:text-base lg:text-xl  mt-2">
-              {menuItems[2]}
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mt-2">
+                {menuItems[2]}
               </p>
             </div>
           </div>

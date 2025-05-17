@@ -1,29 +1,28 @@
 {
   "EN": {
     "home": {
-      "header": ["Home", "Catalogues", "About", "Contact", "Conditions", "All",
-        "Costumes", "Dresses", "Shirts", "Skirts", 
-        "Sweaters",  "Pants", "Jackets", "Tops", "Outerwear", "Shorts"
+      "header": ["HOME", "FAVORITE SPOTS", "ABOUT", "LOVE STORIES (BLOG)", "PRICING", "CONTACT", "ALL",
+        "Gothic Quarter", "Cathedral of Barcelona", "Sagrada Família", "Ciutadella Park", 
+        "Parc del Laberint",  "Parc de Montjuïc"
       ],
     
-      "hero": ["Ukrainian women's clothing brand","Ukrainian women's","clothing brand"],
+      "hero": ["PHOTOSHOOT IN BARCELONA", " NOW"],
       "about": [
         "ABOUT US:",
-        "LATORE - Ukrainian brand of women's clothing with its own production, with over 10 years of experience, with two showrooms in Ivano-Frankivsk and Kharkiv.",
-        "We are the embodiment of basic models and an original, designer approach to all products.",
-        "Our clothes are a combination of classics and comfort, femininity and harmony. Thanks to our own production, we guarantee the high quality of each product."
+        "I’m YASS, a passionate photographer based in Barcelona’s heart. Specializing in weddings, love story sessions, and tourist photography",
+        "I transform your moments into timeless keepsakes. From romantic garden portraits to iconic cityscapes and adventurous tourist shots",
+        "Let’s create your perfect story—contact me today!"
         
       ],
-      "top_products": ["Top Products"],
+      "top_products": ["GALLERY"],
       "Our_Products": ["Our Products"],
       "special_offers": [
-        "Special Offers",
-        "Limited Time",
-        "Don't miss out on our exclusive deals. Grab them while they last \nand enjoy discounts that won&t be around forever!",
-        "Shop Now"
+        "LOVE STORY",
+        "IN BARCELONA",
+        "Feel the romance of Barcelona’s gardens and historic charm in our Love Story in BarcelonaA photos. See the magic of love captured—explore our gallery now!"
       ],
-      "follow_us": ["Follow Us"],
-      "Footer": ["Poltavskyi Shliakh St, 144 А Kharkiv", "Torhovyy Tsentr", "Kyyivsʹkyy Ivano Frankivsk"]
+      "follow_us": ["FOLLOW US ON INSTAGRAM"],
+      "Footer": ["BARCELONA", "Made By", " el Mejor tech "]
     },
     "products": {
       "header": ["Catalogues", "About", "Contact", "Conditions"]

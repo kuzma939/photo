@@ -32,7 +32,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   const router = useRouter();
 
   const categories = [
-    { name: menuItems[5], path: "" }, 
+    // { name: menuItems[5], path: "" }, 
     { name: menuItems[6], path: "costumes" },
     { name: menuItems[7], path: "dresses" },
     {name: menuItems[8], path: "Shirts"},
@@ -57,18 +57,18 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
       <div className="flex-shrink-0 ml-0 sm:ml-8">
       <Head>
   {/* Попереднє завантаження зображення */}
-  <link rel="preload" as="image" href="/light-logo.avif" type="image/avif" media="(max-width: 480px)"/>
+  <link rel="preload" as="image" href="/Logo.webp" type="image/avif" media="(max-width: 480px)"/>
 </Head>
 <Link href="/" aria-label="Home">
   <span className="flex items-center">
     <h1 className="sr-only">Latore Atelier</h1>
     <Image
-      src="/light-logo.avif"
+      src="/Logo.webp"
       alt="Latore Atelier Logo"
       width={128}
       height={69}
       priority
-      className={`w-16 h-auto sm:w-24 md:w-32 lg:w-40 ${
+      className={`w-auto h-auto sm:w-24 md:w-32 lg:w-40 ${
         isDarkMode ? "filter invert" : ""
       }`}
     />
@@ -124,8 +124,8 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
     className="ml-2 p-1"
     role="menuitem"
     aria-label="Toggle categories"
-aria-haspopup="true"
-aria-expanded={isCategoriesOpen}
+    aria-haspopup="true"
+    aria-expanded={isCategoriesOpen}
 
   >
     <FaChevronDown
@@ -172,6 +172,11 @@ aria-expanded={isCategoriesOpen}
     <li className="min-w-[80px] text-center" role="menuitem">
       <Link href="/Conditions" aria-label={`View ${menuItems[4]}`}>
         {menuItems[4]}
+      </Link>
+    </li>
+    <li className="min-w-[80px] text-center" role="menuitem">
+      <Link href="/contact" aria-label={`View ${menuItems[4]}`}>
+        {menuItems[5]}
       </Link>
     </li>
   </ul>
@@ -294,6 +299,11 @@ aria-expanded={isCategoriesOpen}
       {menuItems[4]}
     </Link>
   </li>
+  <li className="min-w-[80px] text-center" role="menuitem">
+      <Link href="/contact" aria-label={`View ${menuItems[4]}`}>
+        {menuItems[5]}
+      </Link>
+    </li>
 </ul>
       </nav>
     </header>

@@ -68,7 +68,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
       width={80}
       height={40}
       priority
-      className={`w-auto h-auto sm:w-16 md:w-24 lg:w-28 ${
+      className={`w-auto h-auto sm:w-16 md:w-18 lg:w-24 ${
         isDarkMode ? "filter invert" : ""
       }`}
     />

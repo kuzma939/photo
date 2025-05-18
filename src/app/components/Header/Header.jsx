@@ -63,12 +63,12 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   <span className="flex items-center">
     <h1 className="sr-only">Latore Atelier</h1>
     <Image
-      src="/Logo2.webp"
+      src="/logo.jpg"
       alt="Latore Atelier Logo"
-      width={128}
-      height={69}
+      width={80}
+      height={40}
       priority
-      className={`w-auto h-auto sm:w-24 md:w-32 lg:w-40 ${
+      className={`w-auto h-auto sm:w-16 md:w-24 lg:w-28 ${
         isDarkMode ? "filter invert" : ""
       }`}
     />

@@ -25,37 +25,37 @@ const Hero = () => {
         <meta property="og:url" content="https://example.com" />
       </Head>
  {/* Десктопна версія */}
- <div className="hidden lg:flex  justify-center  items-center gap-4 mt-8 mb-8">
-          <div className="relative w-[300px] h-[400px]">
+ <div className="hidden lg:flex  justify-center  items-center gap-4 mt-8 mb-36">
+          <div className="relative w-[400px] h-[500px]">
             <Image
               src="/1.avif"
               alt="Left showcase of Latore Atelier's exclusive fashion design"
-              width={300}
-              height={400}
+              width={400}
+              height={500}
               className="rounded-lg object-cover shadow-2xl shadow-gray-800 dark:shadow-gray-400"
               priority
             />
           </div>
-          <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+          <div className="relative w-[400px] h-[400px] rounded-full overflow-hidden">
             <Image
               src="/2.avif"
               alt="Center showcase of Latore Atelier's elegant design"
-              width={300}
-              height={300}
+              width={400}
+              height={400}
               className="object-cover"
               priority
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-4xl font-bold text-white bg-black bg-opacity-50">
-              <span className="block self-start ml-8">LATORE</span>
-              <span className="block text-4xl font-bold self-end mr-8 mt-2">ATELIER</span>
+              <span className="block self-center ">PHOTOGRAPHER</span>
+              <span className="block text-4xl font-bold self-center  mt-4">BARCELONA</span>
             </div>
           </div>
-          <div className="relative w-[300px] h-[400px]">
+          <div className="relative w-[400px] h-[500px]">
             <Image
               src="/4.avif"
               alt="Right showcase of Latore Atelier's signature collection"
-              width={300}
-              height={400}
+              width={400}
+              height={500}
               className="rounded-lg object-cover shadow-2xl shadow-gray-800 dark:shadow-gray-400"
               priority
             />

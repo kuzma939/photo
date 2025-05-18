@@ -24,25 +24,43 @@ const Hero = () => {
         <meta property="og:image" content="/hoom/hero2.avif" />
         <meta property="og:url" content="https://example.com" />
       </Head>
-
-      <section className="hidden lg:flex relative w-[1280px] xl:w-[1700px] 2xl:w-[2200px] h-[400px] xl:h-[500px] 2xl:h-[650px] mx-auto justify-center items-center">
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="/hoom/Banner.avif"
-            alt="Latore Collection"
-            width={2200}
-            height={650}
-            className="absolute inset-0 object-cover"
-            quality={90}
-            priority
-          />
+ {/* Десктопна версія */}
+ <div className="hidden lg:flex  justify-center  items-center gap-4 mt-8 mb-8">
+          <div className="relative w-[300px] h-[400px]">
+            <Image
+              src="/Dress/Dress Grace/1.avif"
+              alt="Left showcase of Latore Atelier's exclusive fashion design"
+              width={300}
+              height={400}
+              className="rounded-lg object-cover shadow-2xl shadow-gray-800 dark:shadow-gray-400"
+              priority
+            />
+          </div>
+          <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+            <Image
+              src="/Dress/Dress Grace/2.avif"
+              alt="Center showcase of Latore Atelier's elegant design"
+              width={300}
+              height={300}
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-4xl font-bold text-white bg-black bg-opacity-50">
+              <span className="block self-start ml-8">LATORE</span>
+              <span className="block text-4xl font-bold self-end mr-8 mt-2">ATELIER</span>
+            </div>
+          </div>
+          <div className="relative w-[300px] h-[400px]">
+            <Image
+              src="/Dress/Dress Grace/4.avif"
+              alt="Right showcase of Latore Atelier's signature collection"
+              width={300}
+              height={400}
+              className="rounded-lg object-cover shadow-2xl shadow-gray-800 dark:shadow-gray-400"
+              priority
+            />
+          </div>
         </div>
-        <div className="absolute mt-64 lg:mt-64 xl:mt-[420px] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white z-10 px-2">
-          <p className="text-lg sm:text-3xl lg:text-3xl xl:text-5xl">{menuItems[0]}</p>
-          <p className="text-lg sm:text-3xl lg:text-3xl xl:text-5xl">{menuItems[1]}</p>
-
-        </div>
-      </section>
 
       <section
         className="flex flex-row justify-center items-center gap-2 sm:gap-16 section-container overflow-hidden lg:hidden"

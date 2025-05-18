@@ -63,7 +63,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   <span className="flex items-center">
     <h1 className="sr-only">Latore Atelier</h1>
     <Image
-      src="/Logo.webp"
+      src="/Logo2.webp"
       alt="Latore Atelier Logo"
       width={128}
       height={69}

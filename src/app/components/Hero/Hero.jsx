@@ -28,7 +28,7 @@ const Hero = () => {
  <div className="hidden lg:flex  justify-center  items-center gap-4 mt-8 mb-8">
           <div className="relative w-[300px] h-[400px]">
             <Image
-              src="/Dress/Dress Grace/1.avif"
+              src="/1.avif"
               alt="Left showcase of Latore Atelier's exclusive fashion design"
               width={300}
               height={400}
@@ -38,7 +38,7 @@ const Hero = () => {
           </div>
           <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
             <Image
-              src="/Dress/Dress Grace/2.avif"
+              src="/2.avif"
               alt="Center showcase of Latore Atelier's elegant design"
               width={300}
               height={300}
@@ -52,7 +52,7 @@ const Hero = () => {
           </div>
           <div className="relative w-[300px] h-[400px]">
             <Image
-              src="/Dress/Dress Grace/4.avif"
+              src="/4.avif"
               alt="Right showcase of Latore Atelier's signature collection"
               width={300}
               height={400}

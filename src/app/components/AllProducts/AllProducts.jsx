@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import FilterSidebar from "../../Functions/FilterSidebar";
@@ -103,6 +103,22 @@ export default function AllProducts() {
           </FilterSidebar>
 
           <main className="w-full md:w-3/4 flex flex-col">
+          {!selectedProduct && (
+  <div className="relative w-full h-72 sm:h-96 mb-6">
+    <Image
+      src="/2.avif"
+      alt="Category Banner"
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+      style={{
+        objectFit: "cover",
+        objectPosition: "center",
+      }}
+      className="rounded-lg"
+    />
+  </div>
+)}
+
             {selectedProduct && (
               <ProductBanner
                 selectedProduct={selectedProduct}

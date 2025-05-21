@@ -8,6 +8,7 @@ import ProductBanner from "../../components/products/ProductBanner";
 import { useLanguage } from "../../Functions/useLanguage";
 import products from "../../data/products";
 import LocationFilter from "../../Functions/LocationFilter";
+import TypeFilter from "../../Functions/TypeFilter";
 
 export default function AllProducts() {
   const { translateList, language } = useLanguage();
@@ -19,7 +20,10 @@ export default function AllProducts() {
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [showFilter, setShowFilter] = useState(false); // ❗️Кнопка "Filter"
+  const [selectedType, setSelectedType] = useState(""); 
+ const [showFilter, setShowFilter] = useState(false);
+
+
   const descriptionRef = useRef(null);
 
   useEffect(() => {
@@ -31,9 +35,13 @@ export default function AllProducts() {
     }
   }, [productId]);
 
-  const filteredProducts = products.filter((product) =>
-    selectedLocation ? product.location === selectedLocation : true
-  );
+  // ✅ ФІЛЬТРАЦІЯ по location + category
+  const filteredProducts = products.filter((product) => {
+    const matchLocation = selectedLocation ? product.location === selectedLocation : true;
+    const matchType = selectedType ? product.type === selectedType : true;
+  return matchLocation && matchType;
+   
+  });
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -51,28 +59,12 @@ export default function AllProducts() {
     <section className="bg-gray-100 text-black dark:text-white min-h-screen dark:bg-black">
       <div className="w-full mx-auto px-4 sm:px-6 md:px-8 py-4">
 
-        {/* ✅ Маленька кнопка фільтра */}
-        <div className="flex justify-end mb-4">
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
-            onClick={() => setShowFilter(!showFilter)}
-          >
-            {showFilter ? "×" : "Filter"}
-          </button>
-        </div>
 
-        {/* ✅ Показуємо фільтр по кліку */}
-        {showFilter && (
-          <div className="mb-6 w-full md:w-1/2 lg:w-1/3">
-            <LocationFilter
-              selectedLocation={selectedLocation}
-              onSelectLocation={setSelectedLocation}
-            />
-          </div>
-        )}
+
+       
 
         {!selectedProduct && (
-          <div className="relative w-full h-72 sm:h-96 mb-6">
+          <div className="relative w-full h-72 sm:h-[600px] mb-6">
             <Image
               src="/2.avif"
               alt="Category Banner"
@@ -91,14 +83,46 @@ export default function AllProducts() {
             onClose={handleCloseBanner}
           />
         )}
+        {/* 🔽 ВИБІР ЛОКАЦІЇ — завжди показується під банером */}
+<div className="mb-6 w-full md:w-2/3 lg:w-1/2 space-y-4">
+  <div>
+    <label className="block mb-1 font-medium">Location</label>
+    <LocationFilter
+      selectedLocation={selectedLocation}
+      onSelectLocation={setSelectedLocation}
+    />
+  </div>
+</div>
 
+ {/* ✅ Блок фільтрів */}
+ {showFilter && (
+          <div className="mb-6 w-full md:w-2/3 lg:w-1/2 space-y-4">
+            <div>
+              <label className="block mb-1 font-medium">Location</label>
+              <LocationFilter
+                selectedLocation={selectedLocation}
+                onSelectLocation={setSelectedLocation}
+              />
+            </div>
+      {/*}      <div>
+    <label className="block mb-1 font-medium">Тип</label>
+    <TypeFilter
+      selectedType={selectedType}
+      onSelectType={setSelectedType}
+    />
+  </div>
+        */}
+          </div>
+        )}
         <section className="w-full px-4 sm:px-6 md:px-8 py-4">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">{menuItems[0]}</h1>
-          <p className="text-gray-700 dark:text-gray-400 mb-4">{menuItems[1]}</p>
-          <p className="text-gray-700 dark:text-gray-400 mt-4 pb-4">
-            {filteredProducts.length} {menuItems[2]}
-          </p>
-        </section>
+  <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+    {selectedLocation || "Locations"}
+  </h1>
+  <p className="text-gray-700 dark:text-gray-400 mt-2 pb-4">
+    {filteredProducts.length} {filteredProducts.length === 1 ? "photo" : "photos"}
+  </p>
+</section>
+
 
         <section className="w-full">
           <PaginatedProducts
@@ -111,3 +135,4 @@ export default function AllProducts() {
     </section>
   );
 }
+

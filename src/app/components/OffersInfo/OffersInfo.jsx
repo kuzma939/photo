@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import InfoForm from "../../Functions/InfoForm";
 import { useLanguage } from "../../Functions/useLanguage";
 import { handleContactButtonClick } from "../../utils/products";
+import FottoLove from "../../components/products/FottoLove";
 
 import Image from "next/image";
-import ProductBanner from "../../components/products/ProductBanner"; // Імпортуємо банер
 import products from "../../data/products";
 
 export default function OffersInfo() {
@@ -40,15 +40,13 @@ export default function OffersInfo() {
           {menuItems[1]}
         </p>
       </header>
-
-      {/* Якщо вибрано продукт, показуємо ProductBanner */}
       {selectedProduct && (
-        <ProductBanner
-          selectedProduct={selectedProduct}
-          handleContactButtonClick={onContactClick}
-          onClose={handleCloseBanner}
-        />
-      )}
+  <FottoLove
+    selectedProduct={selectedProduct}
+    onClose={handleCloseBanner}
+  />
+)}
+
 
       <section aria-labelledby="special-offers">
         <h2 id="special-offers" className="sr-only">

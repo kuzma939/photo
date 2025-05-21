@@ -28,7 +28,7 @@ const ProductDetails = ({ productData, formSubmitted }) => {
       </h2>
       <dl className="w-full max-w-lg space-y-4">
         <div className="flex flex-wrap justify-between items-start">
-          <dt className="text-sm sm:text-base font-semibold flex items-center gap-2">
+        <dt className="text-sm sm:text-base font-semibold flex items-center gap-2">
             <FaTag className="text-gray-600 dark:text-lime-400" /> Product Name:
           </dt>
           <dd className="text-sm sm:text-base break-words max-w-[70%]">{translatedName}</dd>

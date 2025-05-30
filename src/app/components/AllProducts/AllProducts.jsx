@@ -1,138 +1,80 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import Image from "next/image";
-import PaginatedProducts from "../../components/PaginatedProducts/PaginatedProducts";
-import ProductBanner from "../../components/products/ProductBanner";
+import locationData from "../../data/location";
 import { useLanguage } from "../../Functions/useLanguage";
-import products from "../../data/products";
-import LocationFilter from "../../Functions/LocationFilter";
-import TypeFilter from "../../Functions/TypeFilter";
 
 export default function AllProducts() {
   const { translateList, language } = useLanguage();
   const menuItems = translateList("Catalogues", "header");
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const productId = searchParams.get("product");
+  const [selectedLocation, setSelectedLocation] = useState("Ciutadella Park");
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedType, setSelectedType] = useState(""); 
- const [showFilter, setShowFilter] = useState(false);
+  const current = locationData.find((loc) => loc.location === selectedLocation);
+  const currentBanner = current?.banner || "/default-banner.jpg";
+  const currentImages = current?.images || [];
 
-
-  const descriptionRef = useRef(null);
-
-  useEffect(() => {
-    if (productId) {
-      const product = products.find((p) => String(p.id) === productId);
-      setSelectedProduct(product || null);
-    } else {
-      setSelectedProduct(null);
-    }
-  }, [productId]);
-
-  // ✅ ФІЛЬТРАЦІЯ по location + category
-  const filteredProducts = products.filter((product) => {
-    const matchLocation = selectedLocation ? product.location === selectedLocation : true;
-    const matchType = selectedType ? product.type === selectedType : true;
-  return matchLocation && matchType;
-   
-  });
-
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    router.push(`/All-products?product=${product.id}`, { scroll: false });
-  };
-
-  const handleCloseBanner = () => {
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete("product");
-    router.push(`/All-products?${newParams.toString()}`, { scroll: false });
-    setSelectedProduct(null);
+  const getTranslatedName = (loc) => {
+    return loc.translations?.[language]?.name || loc.location;
   };
 
   return (
     <section className="bg-gray-100 text-black dark:text-white min-h-screen dark:bg-black">
-      <div className="w-full mx-auto px-4 sm:px-6 md:px-8 py-4">
-
-
-
-       
-
-        {!selectedProduct && (
-          <div className="relative w-full h-72 sm:h-[600px] mb-6">
-            <Image
-              src="/2.avif"
-              alt="Category Banner"
-              fill
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              className="rounded-lg"
-            />
-          </div>
-        )}
-
-        {selectedProduct && (
-          <ProductBanner
-            selectedProduct={selectedProduct}
-            descriptionRef={descriptionRef}
-            handleContactButtonClick={() => {}}
-            onClose={handleCloseBanner}
+      <div className="px-4 py-6 w-full max-w-7xl mx-auto">
+        {/* Banner */}
+        <div className="w-full h-72 sm:h-[500px] relative mb-6">
+          <Image
+            src={currentBanner}
+            alt="Banner"
+            fill
+            className="object-cover rounded-lg"
+            priority
           />
-        )}
-        {/* 🔽 ВИБІР ЛОКАЦІЇ — завжди показується під банером */}
-<div className="mb-6 w-full md:w-2/3 lg:w-1/2 space-y-4">
-  <div>
-    <label className="block mb-1 font-medium">Location</label>
-    <LocationFilter
-      selectedLocation={selectedLocation}
-      onSelectLocation={setSelectedLocation}
-    />
-  </div>
-</div>
+        </div>
 
- {/* ✅ Блок фільтрів */}
- {showFilter && (
-          <div className="mb-6 w-full md:w-2/3 lg:w-1/2 space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">Location</label>
-              <LocationFilter
-                selectedLocation={selectedLocation}
-                onSelectLocation={setSelectedLocation}
+        {/* Location selector */}
+        <div className="mb-6 w-full max-w-md">
+          <label className="block mb-1 font-medium text-lg">Location</label>
+          <select
+            value={selectedLocation}
+            onChange={(e) => setSelectedLocation(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded bg-white text-black dark:bg-gray-800 dark:text-white"
+          >
+            {locationData.map((loc) => (
+              <option key={loc.id} value={loc.location}>
+                {getTranslatedName(loc)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Heading */}
+        <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+          {getTranslatedName(current) || "Locations"}
+        </h1>
+        <p className="text-gray-700 dark:text-gray-400 mb-8">
+          {currentImages.length} {currentImages.length === 1 ? "photo" : "photos"}
+        </p>
+
+        {/* Photo Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {currentImages.map((src, i) => (
+            <div key={i} className="rounded shadow overflow-hidden">
+              <Image
+                src={src}
+                alt={`Photo ${i + 1}`}
+                width={300}
+                height={400}
+                className="object-cover w-full h-[400px]"
               />
+              <p className="text-center text-sm mt-1 text-gray-800 dark:text-gray-200">
+                {getTranslatedName(current)}
+              </p>
             </div>
-      {/*}      <div>
-    <label className="block mb-1 font-medium">Тип</label>
-    <TypeFilter
-      selectedType={selectedType}
-      onSelectType={setSelectedType}
-    />
-  </div>
-        */}
-          </div>
-        )}
-        <section className="w-full px-4 sm:px-6 md:px-8 py-4">
-  <h1 className="text-3xl sm:text-4xl font-bold mb-2">
-    {selectedLocation || "Locations"}
-  </h1>
-  <p className="text-gray-700 dark:text-gray-400 mt-2 pb-4">
-    {filteredProducts.length} {filteredProducts.length === 1 ? "photo" : "photos"}
-  </p>
-</section>
-
-
-        <section className="w-full">
-          <PaginatedProducts
-            products={filteredProducts}
-            productsPerPage={12}
-            onProductClick={handleProductClick}
-          />
-        </section>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
-

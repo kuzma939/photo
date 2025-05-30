@@ -7,12 +7,22 @@ import { useLanguage } from "../../Functions/useLanguage";
 import useKeyboardNavigation from "../../hooks/useKeyboardNavigation";
 import useImageFollow from "../../hooks/useImageFollow";
 import Head from "next/head";
-import products from "../../data/products";
+
+
+const images = [
+  { id: 1, src: "/1.avif", link: "/gallery/1" },
+  { id: 2, src: "/2.avif", link: "/gallery/2" },
+  { id: 3, src: "/3.avif", link: "/gallery/3" },
+  { id: 4, src: "/4.avif", link: "/gallery/4" },
+  { id: 5, src: "/5.avif", link: "/gallery/5" },
+  { id: 6, src: "/6.avif", link: "/gallery/6" },
+  { id: 7, src: "/7.avif", link: "/gallery/7" },
+  { id: 8, src: "/8.avif", link: "/gallery/8" },
+  { id: 9, src: "/9.avif", link: "/gallery/9" },
+  { id: 10, src: "/10.avif", link: "/gallery/10" }
+];
 
 export default function TopProducts() {
-  // Вибираємо лише топ-продукти
-  const topProducts = products.filter((product) => product.isTop);
-
   const [visibleImagesCount, setVisibleImagesCount] = useState(10);
 
   useEffect(() => {
@@ -26,7 +36,7 @@ export default function TopProducts() {
   }, []);
 
   const { displayedImages, handleNext, handlePrev } = useImageFollow(
-    topProducts.length,
+    images.length,
     visibleImagesCount
   );
 
@@ -41,7 +51,7 @@ export default function TopProducts() {
         <link
           rel="preload"
           as="image"
-          href={topProducts[0]?.image || ""}
+          href={images[0]?.src || ""}
           type="image/avif"
         />
       </Head>
@@ -63,44 +73,41 @@ export default function TopProducts() {
           >
             <FaChevronLeft />
           </div>
+
           <div
-  className="flex overflow-hidden gap-4 px-4 justify-center"
-  style={{ height: "300px" }}
->
-
+            className="flex overflow-hidden gap-4 px-4 justify-center"
+            style={{ height: "300px" }}
+          >
             {displayedImages.map((imageIndex, idx) => {
-  const product = topProducts[imageIndex];
+              const image = images[imageIndex];
+              if (!image) return null;
 
-  if (!product) return null; // Запобігаємо помилкам, якщо product відсутній
-
-  return (
-    <Link
-      key={`${product.id}-${idx}`} // Використовуємо idx для уникнення дублікатів
-      href={`/Top-products?product=${product.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex-shrink-0 group"
-    >
-      <Image
-        src={product.image}
-       alt={`Топ продукт ${imageIndex + 1}`}
-
-        width={250}
-        height={300}
-        priority={imageIndex === 0}
-        style={{
-          objectFit: "cover",
-          width: "200px",
-          height: "300px",
-        }}
-        sizes="(max-width: 425px) 100vw, (max-width: 768px) 45vw, (max-width: 1024px) 20vw, 300px"
-        quality={85}
-        className="rounded-lg object-cover shadow-lg transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-90"
-      />
-    </Link>
-  );
-})}
-
+              return (
+                <Link
+                  key={`${image.id}-${idx}`}
+                  href={image.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 group"
+                >
+                  <Image
+                    src={image.src}
+                    alt={`Top photo ${image.id}`}
+                    width={250}
+                    height={300}
+                    priority={imageIndex === 0}
+                    style={{
+                      objectFit: "cover",
+                      width: "200px",
+                      height: "300px"
+                    }}
+                    sizes="(max-width: 425px) 100vw, (max-width: 768px) 45vw, (max-width: 1024px) 20vw, 300px"
+                    quality={85}
+                    className="rounded-lg object-cover shadow-lg transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-90"
+                  />
+                </Link>
+              );
+            })}
           </div>
 
           <div

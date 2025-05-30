@@ -7,7 +7,7 @@ const products = [
     sku: "67216",
     size: "XS S M L XL",
     category: "Dresses",
-    location: "Parc de Montjuïc",
+    location: "Ciutadella Park",
     type: "Famille", 
     image: "/Dress/Elodie Dress/1.avif",
     images: [

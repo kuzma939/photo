@@ -10,16 +10,16 @@ import Head from "next/head";
 
 
 const images = [
-  { id: 1, src: "/1.avif", link: "/gallery/1" },
-  { id: 2, src: "/2.avif", link: "/gallery/2" },
-  { id: 3, src: "/3.avif", link: "/gallery/3" },
-  { id: 4, src: "/4.avif", link: "/gallery/4" },
-  { id: 5, src: "/5.avif", link: "/gallery/5" },
-  { id: 6, src: "/6.avif", link: "/gallery/6" },
-  { id: 7, src: "/7.avif", link: "/gallery/7" },
-  { id: 8, src: "/8.avif", link: "/gallery/8" },
-  { id: 9, src: "/9.avif", link: "/gallery/9" },
-  { id: 10, src: "/10.avif", link: "/gallery/10" }
+  { id: 1, src: "/1.avif"},
+  { id: 2, src: "/2.avif"},
+  { id: 3, src: "/3.avif"},
+  { id: 4, src: "/4.avif"},
+  { id: 5, src: "/5.avif"},
+  { id: 6, src: "/6.avif"},
+  { id: 7, src: "/7.avif"},
+  { id: 8, src: "/8.avif"},
+  { id: 9, src: "/9.avif"},
+  { id: 10, src: "/10.avif" }
 ];
 
 export default function TopProducts() {
@@ -85,9 +85,8 @@ export default function TopProducts() {
               return (
                 <Link
                   key={`${image.id}-${idx}`}
-                  href={image.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/Top-products?product=${image.id}`}
+                  
                   className="flex-shrink-0 group"
                 >
                   <Image

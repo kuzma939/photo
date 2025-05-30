@@ -2,7 +2,7 @@ const location = [
   {
     id: 1,
     location: "Gothic Quarter",
-    banner: "/Dress/Asymmetrical_dress/2.avif",
+    banner: "/2.avif",
     type: "Couple",
     images: ["/1.avif", "/2.avif"],
     translations: {

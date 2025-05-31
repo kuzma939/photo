@@ -9,6 +9,9 @@ import { useHeaderState } from "../../hooks/useHeader";
 import { useLanguage } from "../../Functions/useLanguage"; 
 import { useRouter } from "next/navigation"
 //import CartIcon from "../CartIcon/CartIcon"; 
+import location from "../../data/location"; // вже має бути
+
+
 const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   const { translateList, language, setLanguage } = useLanguage();
   const menuItems = translateList("home", "header");
@@ -30,27 +33,24 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   };
   const { isMenuOpen, toggleMenu, closeMenu } = useHeaderState();
   const router = useRouter();
+ 
+  
 
   const categories = [
-    // { name: menuItems[5], path: "" }, 
-    { name: menuItems[6], path: "costumes" },
-    { name: menuItems[7], path: "dresses" },
-    {name: menuItems[8], path: "Shirts"},
-    { name: menuItems[9], path: "skirts" },
-    { name: menuItems[10], path: "sweaters" },
-    { name: menuItems[11], path: "pants" },
-    { name: menuItems[12], path: "jackets" },
-    { name: menuItems[13], path: "tops" },
-    { name: menuItems[14], path: "outerwear" },
-    {name: menuItems[15], path: "shorts"}
-];
-
-  const handleCategoryClick = (categoryPath) => {
-    router.push(`/All-products?category=${categoryPath}`);
-    setIsCategoriesOpen(false);
+    { name: "All", path: "all" },
+    ...location.map((loc) => ({
+      name: loc.translations?.[language]?.name || loc.location,
+     
+      path: loc.location,
+    })),
+  ];
+  
+  const handleCategoryClick = (locationPath) => {
+    router.push(`/All-products?location=${locationPath}`);
+   setIsCategoriesOpen(false);
     closeMenu();
   };
-
+  
   return (
     <header className={`flex items-center justify-between px-4 py-1 shadow-md
    ${isDarkMode ? "bg-black text-white shadow-gray-800" : "bg-white text-black shadow-gray-300"}`} role="banner">

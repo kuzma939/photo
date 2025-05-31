@@ -1,22 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import locationData from "../../data/location";
 import { useLanguage } from "../../Functions/useLanguage";
+import { useSearchParams } from "next/navigation";
 
 export default function AllProducts() {
   const { translateList, language } = useLanguage();
-  const menuItems = translateList("Catalogues", "header");
+  const locationNames = translateList("home", "header");
+  const searchParams = useSearchParams();
+  const locationParam = searchParams.get("location") || "all";
+  
 
-  const [selectedLocation, setSelectedLocation] = useState("Ciutadella Park");
+  //const [selectedLocation, setSelectedLocation] = useState("all");
+  const [selectedLocation, setSelectedLocation] = useState(locationParam);
+  const [modalImageIndex, setModalImageIndex] = useState(null);
+  useEffect(() => {
+    setSelectedLocation(locationParam);
+  }, [locationParam]);
+  const current =
+  selectedLocation !== "all"
+    ? locationData.find((loc) => loc.location === selectedLocation)
+    : null;
 
-  const current = locationData.find((loc) => loc.location === selectedLocation);
+
   const currentBanner = current?.banner || "/default-banner.jpg";
-  const currentImages = current?.images || [];
+  const currentImages =
+    selectedLocation === "all"
+      ? locationData.flatMap((loc) => loc.images || [])
+      : current?.images || [];
 
-  const getTranslatedName = (loc) => {
-    return loc.translations?.[language]?.name || loc.location;
+  const getTranslatedName = (location) => {
+    const index = locationData.findIndex((loc) => loc.location === location);
+    return locationNames?.[index + 7] || location; // adjusted index to match location names
+  };
+
+  const openModal = (index) => {
+    setModalImageIndex(index);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setModalImageIndex(null);
+    document.body.style.overflow = "auto";
+  };
+
+  const goNext = () => {
+    setModalImageIndex((prev) => (prev + 1) % currentImages.length);
+  };
+
+  const goPrev = () => {
+    setModalImageIndex((prev) =>
+      (prev - 1 + currentImages.length) % currentImages.length
+    );
   };
 
   return (
@@ -41,26 +78,35 @@ export default function AllProducts() {
             onChange={(e) => setSelectedLocation(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded bg-white text-black dark:bg-gray-800 dark:text-white"
           >
-            {locationData.map((loc) => (
+            <option value="all">{language === "UA" ? "Усі" : "All"}</option>
+            {locationData.map((loc, i) => (
               <option key={loc.id} value={loc.location}>
-                {getTranslatedName(loc)}
+                {locationNames?.[i + 7] || loc.location}
               </option>
             ))}
           </select>
         </div>
 
         {/* Heading */}
-        <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-          {getTranslatedName(current) || "Locations"}
-        </h1>
-        <p className="text-gray-700 dark:text-gray-400 mb-8">
-          {currentImages.length} {currentImages.length === 1 ? "photo" : "photos"}
-        </p>
+        {selectedLocation !== "all" && (
+          <>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+              {getTranslatedName(selectedLocation)}
+            </h1>
+            <p className="text-gray-700 dark:text-gray-400 mb-8">
+              {currentImages.length} {currentImages.length === 1 ? "photo" : "photos"}
+            </p>
+          </>
+        )}
 
         {/* Photo Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {currentImages.map((src, i) => (
-            <div key={i} className="rounded shadow overflow-hidden">
+            <div
+              key={i}
+              className="rounded shadow overflow-hidden cursor-pointer"
+              onClick={() => openModal(i)}
+            >
               <Image
                 src={src}
                 alt={`Photo ${i + 1}`}
@@ -68,13 +114,41 @@ export default function AllProducts() {
                 height={400}
                 className="object-cover w-full h-[400px]"
               />
-              <p className="text-center text-sm mt-1 text-gray-800 dark:text-gray-200">
-                {getTranslatedName(current)}
-              </p>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      {modalImageIndex !== null && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+          <button
+            className="absolute top-4 right-4 text-3xl text-white"
+            onClick={closeModal}
+          >
+            &times;
+          </button>
+          <button
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl"
+            onClick={goPrev}
+          >
+            &#10094;
+          </button>
+          <Image
+            src={currentImages[modalImageIndex]}
+            alt={`Photo ${modalImageIndex + 1}`}
+            width={1000}
+            height={800}
+            className="max-w-full max-h-[90vh] object-contain"
+          />
+          <button
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl"
+            onClick={goNext}
+          >
+            &#10095;
+          </button>
+        </div>
+      )}
     </section>
   );
 }

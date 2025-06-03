@@ -70,7 +70,6 @@ export default function AllProducts() {
           />
         </div>
 
-        {/* Location selector */}
         <div className="mb-6 w-full max-w-md">
           <label className="block mb-1 font-medium text-lg">Location</label>
           <select

@@ -25,7 +25,7 @@ export default function AllProducts() {
     : null;
 
 
-  const currentBanner = current?.banner || "/default-banner.jpg";
+  const currentBanner = current?.banner || "/Gothic/9DAF9EC6-F105-4A2B-AA15-0C7A7A34A9D6-2.avif";
   const currentImages =
     selectedLocation === "all"
       ? locationData.flatMap((loc) => loc.images || [])
@@ -60,15 +60,22 @@ export default function AllProducts() {
     <section className="bg-gray-100 text-black dark:text-white min-h-screen dark:bg-black">
       <div className="px-4 py-6 w-full max-w-7xl mx-auto">
         {/* Banner */}
-        <div className="w-full h-72 sm:h-[500px] relative mb-6">
-          <Image
-            src={currentBanner}
-            alt="Banner"
-            fill
-            className="object-cover rounded-lg"
-            priority
-          />
-        </div>
+        <div className="w-full h-72 sm:h-[500px] relative mb-6 overflow-hidden  fade-in">
+  <Image
+    src={currentBanner}
+    alt="Banner"
+    fill
+    className="object-cover rounded-lg"
+    priority
+  />
+  <div className="absolute inset-0 bg-black/10 flex items-center justify-center rounded-lg">
+    <h1 className="text-white text-2xl sm:text-4xl font-bold text-center px-4 drop-shadow-lg">
+      {selectedLocation === "all"
+        ? (language === "UA" ? "Фотогалерея з усіх локацій" : "Gallery of All Locations")
+        : getTranslatedName(selectedLocation)}
+    </h1>
+  </div>
+</div>
 
         <div className="mb-6 w-full max-w-md">
           <label className="block mb-1 font-medium text-lg">Location</label>

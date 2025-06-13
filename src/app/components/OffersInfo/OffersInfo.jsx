@@ -1,110 +1,229 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import InfoForm from "../../Functions/InfoForm";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "../../Functions/useLanguage";
-import { handleContactButtonClick } from "../../utils/products";
-import FottoLove from "../../components/products/FottoLove";
-
 import Image from "next/image";
+import { useSearchParams, useRouter } from "next/navigation";
 import products from "../../data/products";
+import ThumbnailCarousel from "../../components/ThumbnailCarousel/ThumbnailCarousel";
+import { motion } from "framer-motion";
 
-export default function OffersInfo() {
-  const { translateList, language } = useLanguage();
-  const menuItems = translateList("SpecialOffers", "header");
+export default function LoveGallery() {
+  const { language } = useLanguage();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const specialOffers = products.filter((product) => product.isSpecialOffer === true);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [likesMap, setLikesMap] = useState({});
+  const [copied, setCopied] = useState(false);
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-  };
+  const selectedProduct = selectedIndex !== null ? products[selectedIndex] : null;
 
-  const onContactClick = (selectedColor, selectedSize, quantity) => {
-    if (selectedProduct) {
-      handleContactButtonClick(router, selectedProduct, selectedColor, selectedSize, quantity, language);
+  // ⏳ Ініціалізація з URL
+  useEffect(() => {
+    const idFromUrl = searchParams.get("id");
+    if (idFromUrl) {
+      const index = products.findIndex((p) => p.id.toString() === idFromUrl);
+      if (index !== -1) {
+        setSelectedIndex(index);
+        setSelectedImage(products[index].image);
+      }
     }
+  }, [searchParams]);
+
+  // 🔁 Завантажити лайки з localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("likesMap");
+      if (saved) {
+        setLikesMap(JSON.parse(saved));
+      }
+    }
+  }, []);
+
+  const handleSelectProduct = (index) => {
+    const product = products[index];
+    setSelectedIndex(index);
+    setSelectedImage(product.image);
+    router.replace(`?id=${product.id}`);
   };
 
-  const handleCloseBanner = () => {
-    setSelectedProduct(null);
+  const handleClose = () => {
+    setSelectedIndex(null);
+    setSelectedImage(null);
+    router.replace("/love-story");
+    setCopied(false);
+  };
+
+  const handleNext = () => {
+    const nextIndex = (selectedIndex + 1) % products.length;
+    handleSelectProduct(nextIndex);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = (selectedIndex - 1 + products.length) % products.length;
+    handleSelectProduct(prevIndex);
+  };
+
+  // ❤️ Обробка Like
+  const handleLikeToggle = (id) => {
+    setLikesMap((prev) => {
+      const current = prev[id] || { count: 0, liked: false };
+      const updated = {
+        ...prev,
+        [id]: {
+          count: current.liked ? current.count - 1 : current.count + 1,
+          liked: !current.liked,
+        },
+      };
+      localStorage.setItem("likesMap", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // 📤 Копіювати посилання
+  const handleShare = async () => {
+    const url = `${window.location.origin}/love-story?id=${selectedProduct.id}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <main className="dark:bg-gray-800 bg-[#fcf8f3] text-black dark:text-white min-h-screen px-4 py-8">
-      <header className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">{menuItems[0]}</h1>
-        <p className="dark:text-gray-400 text:bg-black text-sm md:text-base mb-8">
-          {menuItems[1]}
+    <main className="bg-[#fcf8f3] dark:bg-gray-900 min-h-screen px-4 py-8 text-black dark:text-white">
+      <header className="text-center mb-12">
+        <h1 className="text-4xl font-bold">Love Story</h1>
+        <p className="text-md md:text-lg mt-4 max-w-2xl mx-auto">
+          Explore our couples' romantic journeys captured in beautiful European locations.
         </p>
       </header>
+
+      {!selectedProduct && (
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.map((product, index) => {
+            const name = product.translations?.[language]?.name || product.title;
+            const location = product.location;
+
+            return (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group cursor-pointer rounded overflow-hidden shadow-md hover:shadow-lg border bg-white hover:bg-gray-50 transition"
+                onClick={() => handleSelectProduct(index)}
+              >
+                <div className="relative aspect-square overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={name}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-white text-xl font-semibold">View Story</span>
+                  </div>
+                </div>
+                <div className="px-4 py-3 text-center">
+                  <p className="text-lg font-medium">{name}</p>
+                  <p className="text-sm text-gray-500 italic">{location}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </section>
+      )}
+
       {selectedProduct && (
-  <FottoLove
-    selectedProduct={selectedProduct}
-    onClose={handleCloseBanner}
-  />
-)}
+        <section className="flex flex-col lg:flex-row gap-8 items-start justify-center mt-8">
+          <div className="w-full lg:w-1/2">
+            <div className="aspect-square overflow-hidden rounded-lg">
+              {typeof selectedImage === "string" ? (
+                <Image
+                  src={selectedImage}
+                  alt={
+                    selectedProduct.translations?.[language]?.name ||
+                    selectedProduct.title ||
+                    "Love photo"
+                  }
+                  width={800}
+                  height={800}
+                  className="object-cover w-full h-full"
+                  priority
+                />
+              ) : (
+                <video
+                  src={selectedImage?.src}
+                  poster={selectedImage?.poster || "/default-poster.jpg"}
+                  controls
+                  className="object-cover w-full h-full rounded"
+                />
+              )}
+            </div>
 
-
-      <section aria-labelledby="special-offers">
-        <h2 id="special-offers" className="sr-only">
-          {menuItems[2]}
-        </h2>
-        <div
-          className="bg-gray-100 dark:bg-gray-800 ml-8 max-h-[450px] md:max-h-[600px] overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 mb-8"
-          aria-label="Special offers list"
-          role="list"
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6 p-4">
-            {specialOffers.map((product) => {
-              const translatedName = product.translations?.[language]?.name || product.title;
-
-              return (
-                <article
-                  key={product.id}
-                  className="text-black bg-gray-100 dark:bg-white dark:text-black rounded shadow-lg hover:scale-105 transition-transform cursor-pointer"
-                  onClick={() => handleProductClick(product)}
-                  aria-labelledby={`product-title-${product.id}`}
-                  role="listitem"
-                >
-                  <div className="w-full h-[300px] sm:h-[350px] overflow-hidden rounded-t">
-                    <Image
-                      src={product.image}
-                      alt={`Preview of ${translatedName}`}
-                      width={300}
-                      height={350}
-                      className="w-full h-full object-cover"
-                      priority
-                    />
-                  </div>
-                  <div className="p-2 sm:p-4 dark:bg-gray-200">
-                    <h3 id={`product-title-${product.id}`} className="font-semibold text-sm sm:text-lg">
-                      {translatedName}
-                    </h3>
-                    <div className="flex justify-between items-center">
-                      <p className="text-red-600 font-bold text-sm sm:text-base">
-                        {product.discountPrice || product.price} UAH
-                      </p>
-                      {product.discountPrice && (
-                        <div className="flex gap-2 items-center">
-                          <p className="line-through text-gray-500 text-xs sm:text-sm">
-                            {product.price} UAH
-                          </p>
-                          <p className="text-green-600 text-xs sm:text-sm">
-                            -{Math.round(((product.price - product.discountPrice) / product.price) * 100)}%
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+            <ThumbnailCarousel
+              images={[selectedProduct.image, ...(selectedProduct.images || [])]}
+              onImageSelect={(img) => setSelectedImage(img)}
+            />
           </div>
-        </div>
-      </section>
+
+          <div className="w-full lg:w-1/3 space-y-4">
+            <h2 className="text-2xl font-bold">
+              {selectedProduct.translations?.[language]?.name || selectedProduct.title}
+            </h2>
+            <p className="italic text-gray-600 dark:text-gray-300">
+              {selectedProduct.location}
+            </p>
+            <p className="whitespace-pre-line">
+              {selectedProduct.translations?.[language]?.description ||
+                selectedProduct.description}
+            </p>
+
+            <div className="flex flex-wrap gap-4 mt-6">
+              <button
+                onClick={handlePrev}
+                className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNext}
+                className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+              >
+                Next
+              </button>
+              <button
+                onClick={handleClose}
+                className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500"
+              >
+                Back to Gallery
+              </button>
+            </div>
+
+            <div className="flex items-center gap-4 mt-4">
+              <button
+                onClick={() => handleLikeToggle(selectedProduct.id)}
+                className={`px-4 py-2 rounded font-semibold flex items-center gap-2 ${
+                  likesMap[selectedProduct.id]?.liked
+                    ? "bg-red-600 text-white"
+                    : "bg-gray-300 text-gray-800 hover:bg-gray-400"
+                }`}
+              >
+                ❤️ {likesMap[selectedProduct.id]?.liked ? "Liked" : "Like"} (
+                {likesMap[selectedProduct.id]?.count || 0})
+              </button>
+
+              <button
+                onClick={handleShare}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                📤 {copied ? "Link Copied!" : "Share"}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

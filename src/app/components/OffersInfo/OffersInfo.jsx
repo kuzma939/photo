@@ -52,7 +52,7 @@ export default function LoveGallery() {
   const handleClose = () => {
     setSelectedIndex(null);
     setSelectedImage(null);
-    router.replace("/love-story");
+    router.replace("/special-offers");
     setCopied(false);
   };
 
@@ -127,7 +127,7 @@ export default function LoveGallery() {
                 </div>
                 <div className="px-4 py-3 text-center">
                   <p className="text-lg font-medium">{name}</p>
-                  <p className="text-sm text-gray-500 italic">{location}</p>
+                  <p className="text-sm text-gray-800 italic">{location}</p>
                 </div>
               </motion.div>
             );
@@ -172,7 +172,7 @@ export default function LoveGallery() {
             <h2 className="text-2xl font-bold">
               {selectedProduct.translations?.[language]?.name || selectedProduct.title}
             </h2>
-            <p className="italic text-gray-600 dark:text-gray-300">
+            <p className="italic text-gray-900 dark:text-gray-300">
               {selectedProduct.location}
             </p>
             <p className="whitespace-pre-line">

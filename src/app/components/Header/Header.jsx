@@ -1,4 +1,3 @@
-
 "use client"; 
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -29,7 +28,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   };
   
   const goToCatalog = () => {
-    router.push("/All-products");
+    router.push("/GalleryLocationsPage");
   };
   const { isMenuOpen, toggleMenu, closeMenu } = useHeaderState();
   const router = useRouter();
@@ -46,8 +45,8 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
   ];
   
   const handleCategoryClick = (locationPath) => {
-    router.push(`/All-products?location=${locationPath}`);
-   setIsCategoriesOpen(false);
+    router.push(`/GalleryLocationsPage?location=${locationPath}`);
+    setIsCategoriesOpen(false);
     closeMenu();
   };
   
@@ -165,7 +164,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
       </Link>
     </li>
     <li className="min-w-[80px] text-center" role="menuitem">
-      <Link href="/contact" aria-label={`Go to ${menuItems[3]} page`}>
+      <Link href="/love-story" aria-label={`Go to ${menuItems[3]} page`}>
         {menuItems[3]}
       </Link>
     </li>
@@ -290,7 +289,7 @@ const Header = React.memo(({ isDarkMode, toggleDarkMode }) => {
     </Link>
   </li>
   <li className="text-center" role="menuitem">
-    <Link href="/contact" aria-label={`Navigate to ${menuItems[3]} page`}>
+    <Link href="/love-story" aria-label={`Navigate to ${menuItems[3]} page`}>
       {menuItems[3]}
     </Link>
   </li>

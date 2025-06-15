@@ -1,4 +1,4 @@
-const topProductsJsonLd = (products) => ({
+const galleryJsonLd = (products) => ({
   "@context": "https://schema.org",
   "@type": "ItemList",
   itemListElement: products.map((product, index) => ({
@@ -29,4 +29,4 @@ const topProductsJsonLd = (products) => ({
   })),
 });
 
-export default topProductsJsonLd;
+export default galleryJsonLd;

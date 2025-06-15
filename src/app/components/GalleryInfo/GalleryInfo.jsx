@@ -5,7 +5,7 @@ import Image from "next/image";
 import photoTypes from "../../data/photoTypes";
 import { useLanguage } from "../../Functions/useLanguage";
 
-export default function TopProductsInfo() {
+export default function GalleryInfo() {
   const { translateList, language } = useLanguage();
   const menuItems = translateList("home", "top_products");
 
@@ -99,7 +99,7 @@ useEffect(() => {
   {/* затемнення + текст */}
 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center z-20">
   <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow-lg">
-    {menuItems[1]}
+    {language === "EN" ? "Gallery" : language === "FR" ? "Galerie" : "Галерея"}
   </h1>
 </div>
 

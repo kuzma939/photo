@@ -13,13 +13,13 @@ export default function OurProducts() {
   const menuItems = translateList("home", "Our_Products");
 
   const images = [
-    { src: "/8.avif", link: "/All-products" },
-    { src: "/9.avif", link: "/All-products" },
-    { src: "/10.avif", link: "/All-products" },
-    { src: "/11.avif", link: "/All-products" },
-    { src: "/12.avif", link: "/All-products" },
-    { src: "/13.avif", link: "/All-products" },
-    { src: "/14.avif", link: "/All-products" },
+    { src: "/8.avif", link: "/GalleryLocationsPage" },
+    { src: "/9.avif", link: "/GalleryLocationsPage" },
+    { src: "/10.avif", link: "/GalleryLocationsPage" },
+    { src: "/11.avif", link: "/GalleryLocationsPage" },
+    { src: "/12.avif", link: "/GalleryLocationsPage" },
+    { src: "/13.avif", link: "/GalleryLocationsPage" },
+    { src: "/14.avif", link: "/GalleryLocationsPage" },
   ];
 
   // Контролюємо кількість відображуваних зображень

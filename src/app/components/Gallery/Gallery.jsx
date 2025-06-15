@@ -22,7 +22,7 @@ const images = [
   { id: 10, src: "/10.avif" }
 ];
 
-export default function TopProducts() {
+export default function Gallery() {
   const [visibleImagesCount, setVisibleImagesCount] = useState(10);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function TopProducts() {
         />
       </Head>
       <section
-        id="top-products"
+        id="gallery"
         className="bg-[#fcf8f3] dark:bg-gray-800 text-black dark:text-gray-100 section-container py-12"
       >
         <div className="space-y-4">
@@ -85,7 +85,7 @@ export default function TopProducts() {
               return (
                 <Link
                   key={`${image.id}-${idx}`}
-                  href={`/Top-products?product=${image.id}`}
+                  href={`/Gallery?product=${image.id}`}
                   
                   className="flex-shrink-0 group"
                 >

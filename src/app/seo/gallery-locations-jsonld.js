@@ -6,7 +6,7 @@ const generateProductsJsonLd = (products) => {
     itemListElement: products.map((product, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `https://www.latore.shop/All-products?productId=${product.id}`, // Коректний URL для продукту
+      url: `https://www.latore.shop/GalleryLocationsPage?productId=${product.id}`,
       name: product.translations?.EN?.name || "Unnamed Product", // Назва продукту
       image: {
         "@type": "ImageObject",

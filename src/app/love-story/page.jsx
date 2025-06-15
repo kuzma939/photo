@@ -3,21 +3,21 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Script from "next/script";
-import offersJsonLd from "../seo/offers-jsonld";
+import loveJsonLd from "../seo/love-jsonld";
 import products from "../data/products"; // Загальний масив продуктів
 import seoConfig from "../../../next-seo.config";
 
 // Динамічний імпорт компонентів
 const Layout = dynamic(() => import("../components/Layout"), { ssr: false });
-const OffersInfo = dynamic(() => import("../components/OffersInfo/OffersInfo"), {
+const LoveGallery = dynamic(() => import("../components/LoveStoryInffo/LoveStoryInffo"), {
   ssr: false,
-  loading: () => <div>Loading offers...</div>, // Резервний стан
+  loading: () => <div>Loading love story...</div>, // Резервний стан
 });
 
-export default function Offerspage() {
-  const offers = products; // Використовуємо загальний масив продуктів
-  const jsonLd = offersJsonLd(offers); // Генеруємо JSON-LD тільки для спеціальних пропозицій
-  const seo = seoConfig.offers; // SEO-конфігурація
+export default function LoveStoryPage() {
+  const loveProducts = products;
+  const jsonLd = loveJsonLd(loveProducts); // SEO-дані для love-story
+  const seo = seoConfig.loveStory; // (додай loveStory в seo config)
 
   return (
     <div className="transition-colors">
@@ -36,14 +36,14 @@ export default function Offerspage() {
 
       {/* JSON-LD для SEO */}
       <Script
-        id="offers-jsonld"
+        id="love-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* Динамічний рендеринг компонентів */}
       <Layout>
-        <OffersInfo />
+        <LoveGallery />
       </Layout>
     </div>
   );

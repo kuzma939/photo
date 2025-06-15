@@ -2,15 +2,15 @@
 import dynamic from "next/dynamic"; // Для динамічного імпорту
 import Script from "next/script";
 import Head from "next/head";
-import generateProductsJsonLd from "../seo/all-products-jsonld";
+import generateGalleryLocationsJsonLd from "../seo/gallery-locations-jsonld";
 import seoConfig from "../../../next-seo.config";
 import products from "../data/products";
 
 const Layout = dynamic(() => import("../components/Layout"), { ssr: false }); // Динамічний імпорт Layout
-const AllProducts = dynamic(() => import("../components/AllProducts/AllProducts"), { ssr: false }); // Динамічний імпорт AllProducts
+const GalleryLocations = dynamic(() => import("../components/GalleryLocations/GalleryLocations"), { ssr: false }); // Динамічний імпорт GalleryLocations
 
 export default function Products() {
-    const jsonLd = generateProductsJsonLd(products); // Передаємо масив продуктів
+    const jsonLd = generateGalleryLocationsJsonLd(products); // Передаємо масив продуктів
     const seo = seoConfig.allProducts; // SEO-конфігурація для сторінки
 
     return (
@@ -30,14 +30,14 @@ export default function Products() {
 
             {/* JSON-LD для SEO */}
             <Script
-                id="all-products-jsonld"
+                id="gallery-locations-jsonld"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
             {/* Динамічний рендеринг компонентів */}
             <Layout>
-                <AllProducts />
+                <GalleryLocations />
             </Layout>
         </div>
     );

@@ -19,44 +19,44 @@ const seoConfig = {
     canonical: "https://shoopingsite-my9e.vercel.app/contact",
     robots: "index, follow"
   },
-
-  offers: {
-    title: "Спеціальні пропозиції | Магазин жіночого одягу",
-    description: "Спеціальні пропозиції та акції для покупців.",
-    openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/special-offers",
-      title: "Спеціальні пропозиції | Магазин жіночого одягу",
-      description: "Дізнайтеся про наші акції та спеціальні знижки.",
-      images: [
-        { 
-          url: "https://shoopingsite-my9e.vercel.app/special-offers-preview.jpg",
-          width: 1200,
-          height: 628,
-          alt: "Offers Page Image"
-        }
-      ]
-    },
-    canonical: "https://shoopingsite-my9e.vercel.app/special-offers",
-    robots: "index, follow"
+loveStory: {
+  title: "Love Story | Магазин жіночого одягу",
+  description: "Найромантичніші образи, натхненні коханням. Ексклюзивні луки для закоханих пар.",
+  openGraph: {
+    url: "https://shoopingsite-my9e.vercel.app/love-story",
+    title: "Love Story | Магазин жіночого одягу",
+    description: "Найромантичніші образи, натхненні коханням. Ексклюзивні луки для закоханих пар.",
+    images: [
+      { 
+        url: "https://shoopingsite-my9e.vercel.app/love-story-preview.jpg",
+        width: 1200,
+        height: 628,
+        alt: "Love Story Preview Image"
+      }
+    ]
   },
+  canonical: "https://shoopingsite-my9e.vercel.app/love-story",
+  robots: "index, follow"
+},
 
-  topProducts: {
-    title: "Топ продукти | Магазин жіночого одягу",
-    description: "Дивіться наші найкращі товари та популярні колекції.",
+
+  gallery: {
+    title: "Галерея | Магазин жіночого одягу",
+    description: "Дивіться нашу галерею та популярні колекції.",
     openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/top-products",
-      title: "Топ продукти | Магазин жіночого одягу",
-      description: "Наші найкращі товари для стильних образів.",
+      url: "https://shoopingsite-my9e.vercel.app/gallery",
+      title: "Галерея | Магазин жіночого одягу",
+      description: "Наша галерея для стильних образів.",
       images: [
-        { 
-          url: "https://shoopingsite-my9e.vercel.app/top-products-preview.jpg",
+        {
+          url: "https://shoopingsite-my9e.vercel.app/gallery-preview.jpg",
           width: 1200,
           height: 628,
-          alt: "Top Products Page Image"
+          alt: "Gallery Page Image"
         }
       ]
     },
-    canonical: "https://shoopingsite-my9e.vercel.app/top-products",
+    canonical: "https://shoopingsite-my9e.vercel.app/gallery",
     robots: "index, follow"
   },
 
@@ -97,6 +97,26 @@ const seoConfig = {
       ]
     },
     canonical: "https://shoopingsite-my9e.vercel.app/all-products",
+    robots: "index, follow"
+  },
+
+  galleryLocations: {
+    title: "Галерея локацій | Магазин жіночого одягу",
+    description: "Дивіться наші локації та популярні фотосесії.",
+    openGraph: {
+      url: "https://shoopingsite-my9e.vercel.app/gallery-locations-page",
+      title: "Галерея локацій | Магазин жіночого одягу",
+      description: "Галерея локацій для стильних образів.",
+      images: [
+        {
+          url: "https://shoopingsite-my9e.vercel.app/gallery-locations-page-preview.jpg",
+          width: 1200,
+          height: 628,
+          alt: "Gallery Locations Page Image"
+        }
+      ]
+    },
+    canonical: "https://shoopingsite-my9e.vercel.app/gallery-locations-page",
     robots: "index, follow"
   }
 };

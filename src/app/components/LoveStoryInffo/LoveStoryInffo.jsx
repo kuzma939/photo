@@ -5,7 +5,7 @@ import { useLanguage } from "../../Functions/useLanguage";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import products from "../../data/products";
-import ThumbnailCarousel from "../../components/ThumbnailCarousel/ThumbnailCarousel";
+import ThumbnailCarousel from "../ThumbnailCarousel/ThumbnailCarousel";
 import { motion } from "framer-motion";
 
 export default function LoveGallery() {
@@ -52,7 +52,7 @@ export default function LoveGallery() {
   const handleClose = () => {
     setSelectedIndex(null);
     setSelectedImage(null);
-    router.replace("/special-offers");
+    router.replace("/love-story");
     setCopied(false);
   };
 
@@ -95,8 +95,9 @@ export default function LoveGallery() {
       <header className="text-center mb-12">
         <h1 className="text-4xl font-bold">Love Story</h1>
         <p className="text-md md:text-lg mt-4 max-w-2xl mx-auto">
-          Explore our couples' romantic journeys captured in beautiful European locations.
-        </p>
+  {`Explore our couples' romantic journeys captured in beautiful European destinations.`}
+</p>
+
       </header>
 
       {!selectedProduct && (

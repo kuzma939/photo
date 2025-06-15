@@ -10,7 +10,7 @@ export default function SpecialOffers() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/special-offers");
+    router.push("/love-story");
   };
 
   return (

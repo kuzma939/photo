@@ -15,6 +15,40 @@ const location = [
       UA: { name: "Готичний квартал" }
     }
   },
+
+    {
+    id: 2,
+    location: "Sagrada Família",
+    banner: "/Gothic/TURKEY/1.avif",
+    type: "Couple",
+    images: ["/Gothic/2.avif"],
+    translations: {
+      EN: { name: "Sagrada Família" },
+      FR: { name: "Sagrada Família" },
+      UA: { name: "Саграда Фамілія" }
+    }
+  },
+
+    {
+    id: 3,
+    location: "Ciutadella Park",
+    banner: "/Parc cuitadella/NATASHA/5.avif",
+    type: "Couple",
+    images: ["/Parc cuitadella/PIE AND JARON/21.avif","/Parc cuitadella/NATASHA/3.avif","/Parc cuitadella/PIE AND JARON/6.avif",
+      "/Parc cuitadella/NATASHA/2.avif","/Parc cuitadella/PIE AND JARON/10.avif", "/Parc cuitadella/NATASHA/9.avif",
+      "/Parc cuitadella/PIE AND JARON/8.avif", "/Parc cuitadella/NATASHA/12.avif", "/Parc cuitadella/NATASHA/15.avif",
+      "/Parc cuitadella/NATASHA/18.avif","/Parc cuitadella/PIE AND JARON/12.avif", "/Parc cuitadella/NATASHA/20.avif",
+      "/Parc cuitadella/NATASHA/22.avif","/Parc cuitadella/PIE AND JARON/15.avif", "/Parc cuitadella/NATASHA/21.avif","/Parc cuitadella/PIE AND JARON/19.avif",
+
+
+    ],
+    translations: {
+      EN: { name: "Ciutadella Park" },
+      FR: { name: "Ciutadella Park" },
+      UA: { name: "Саграда Фамілія" }
+    }
+  },
+
   // {
   //   id: 2,
   //   location: "Cathedral of Barcelona",
@@ -31,7 +65,7 @@ const location = [
   //   id: 3,
   //   location: "Sagrada Família",
   //   banner: "/banners/sagrada.jpg",
-  //   type: "Famille",
+  //   type: "Couple",
   //   images: ["/sagrada/1.avif", "/sagrada/2.avif"],
   //   translations: {
   //     EN: { name: "Sagrada Família" },

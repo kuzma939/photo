@@ -5,11 +5,13 @@ export default function LocationFilter({ selectedLocation, onSelectLocation }) {
   const locations = [
     "All",
     "Gothic Quarter",
-    "Cathedral of Barcelona",
-    "Sagrada Família",
     "Ciutadella Park",
+    "Sagrada Família",
+    "Cathedral of Barcelona",
     "Parc del Laberint",
     "Parc de Montjuïc",
+    "Parc Marimotre",
+    "parc marimurtra"
   ];
 
   return (

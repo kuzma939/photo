@@ -3,7 +3,6 @@
 
 export default function LocationFilter({ selectedLocation, onSelectLocation }) {
   const locations = [
-    "All",
     "Gothic Quarter",
     "Ciutadella Park",
     "Sagrada Família",

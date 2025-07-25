@@ -30,11 +30,11 @@ export default function AllProducts() {
     selectedLocation === "all"
       ? locationData.flatMap((loc) => loc.images || [])
       : current?.images || [];
+const getTranslatedName = (location) => {
+  const loc = locationData.find((loc) => loc.location === location);
+  return loc?.translations?.[language]?.name || location;
+};
 
-  const getTranslatedName = (location) => {
-    const index = locationData.findIndex((loc) => loc.location === location);
-    return locationNames?.[index + 7] || location; // adjusted index to match location names
-  };
 
   const openModal = (index) => {
     setModalImageIndex(index);
@@ -84,12 +84,14 @@ export default function AllProducts() {
             onChange={(e) => setSelectedLocation(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded bg-white text-black dark:bg-gray-800 dark:text-white"
           >
+  
+
             <option value="all">{language === "UA" ? "Усі" : "All"}</option>
-            {locationData.map((loc, i) => (
-              <option key={loc.id} value={loc.location}>
-                {locationNames?.[i + 7] || loc.location}
-              </option>
-            ))}
+                    {locationData.map((loc) => (
+  <option key={loc.id} value={loc.location}>
+    {loc.translations?.[language]?.name || loc.location}
+  </option>
+))}
           </select>
         </div>
 

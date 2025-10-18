@@ -1,172 +1,172 @@
+// pages/api/sendEmail.js
 import nodemailer from "nodemailer";
-import { escape } from "lodash-es"; // Use lodash-es instead of lodash for better support
+import { escape } from "lodash-es";
+
+const BRAND_NAME = "Pic Best Moments";
+const BRAND_FROM = `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`;
+const ADMIN_EMAIL = "photographbusiness01@gmail.com";
+
+// Package pricing (EUR)
+const PRICE_TABLE = {
+  "0.5": 75,
+  "1": 150,
+  "1.5": 200,
+  "2": 250,
+  "3": 350,
+};
+const BASE_RATE = 150; // for "custom" or non-standard durations
+
+function getTotalPrice(hours) {
+  if (!hours || hours <= 0) return 0;
+  const key = String(hours);
+  if (PRICE_TABLE[key] != null) return PRICE_TABLE[key];
+  return Math.round(hours * BASE_RATE);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
-  
+
+  // --- 1) FORM DATA ---
   const {
     firstName,
     lastName,
     email,
     phone,
     message,
-    productName,
-    productDescription,
-    productPrice,
-    productColor,
-    productQuantity,
-    productSize,
-    productSKU,
-    productImage,
-  } = req.body;
+    bookingDate,     // YYYY-MM-DD
+    bookingTime,     // HH:MM
+    durationOption,  // "0.5", "1", "1.5", "2", "3", or "custom"
+    customHours,     // if "custom"
+  } = req.body || {};
 
-  console.log("Отримані дані:", req.body);
+  // --- 2) SAFE VALUES FOR HTML ---
+  const safeFirstName = escape(firstName || "Client");
+  const safeLastName  = escape(lastName || "");
+  const safeEmail     = escape(email || "unknown");
+  const safePhone     = escape(phone || "Not provided");
+  const safeMessage   = escape(message || "No message provided");
+  const safeDate      = escape(bookingDate || "Not specified");
+  const safeTime      = escape(bookingTime || "Not specified");
 
-  // Ensure that required fields have valid data
-  const safeFirstName = escape(firstName || "Клієнт");
-  const safeLastName = escape(lastName || "");
-  const safeEmail = escape(email || "невідомо");
-  const safePhone = escape(phone || "Не вказано");
-  const safeMessage = escape(message || "Немає повідомлення");
-  const safeProductName = escape(productName || "Без назви");
-  const safeProductDescription = escape(productDescription || "Опис відсутній");
-  const safeProductPrice = escape(productPrice || "Не вказано");
-  const safeProductColor = escape(productColor || "Не вказано");
-  const safeProductQuantity = escape(productQuantity || 1);
-  const safeProductSize = escape(productSize || "Не вказано");
-  const safeProductSKU = escape(productSKU || "N/A");
+  // --- 3) DURATION & PRICE CALC (EUR) ---
+  const rawHours =
+    durationOption === "custom" ? (customHours ?? "") : (durationOption ?? "");
+  const hours = Math.max(0, parseFloat(rawHours) || 0);
+  const totalPrice = getTotalPrice(hours);
 
+  const safeDuration =
+    durationOption === "custom"
+      ? escape(`${customHours || "?"} h`)
+      : escape(`${durationOption || "?"} h`);
+
+  // Якщо стандартний пакет — показуємо «fixed package», інакше — €/hour
+  const priceNote =
+    PRICE_TABLE[String(hours)] != null
+      ? "fixed package"
+      : hours > 0
+      ? `€${BASE_RATE}/hour (custom)`
+      : "";
+
+  const safeTotal =
+    hours > 0 ? escape(`€${totalPrice}${priceNote ? ` — ${priceNote}` : ""}`) : "to be calculated";
+
+  // --- 4) EMAIL STYLES ---
+  const styles = `
+    <style>
+      body { font-family: Arial, sans-serif; line-height: 1.6; padding: 16px; color: #333; }
+      img { max-width: 300px; border-radius: 8px; }
+      .highlight { font-weight: bold; color: #4caf50; }
+      .details-list { list-style: none; padding: 0; }
+      .details-list li { margin-bottom: 8px; }
+      hr { border: none; border-top: 1px solid #e5e7eb; margin: 16px 0; }
+    </style>
+  `;
+
+  // --- 5) BOOKING INFO BLOCK ---
+  const bookingBlock = `
+    <hr />
+    <h3>Booking Details</h3>
+    <ul class="details-list">
+      <li><strong>Date:</strong> ${safeDate}</li>
+      <li><strong>Time:</strong> ${safeTime}</li>
+      <li><strong>Duration:</strong> ${safeDuration}</li>
+      <li><strong>Estimated total:</strong> ${safeTotal}</li>
+    </ul>
+  `;
+
+  // --- 6) TRANSPORT (Gmail SMTP) ---
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      pass: process.env.EMAIL_PASS, // App Password
     },
-    tls: { rejectUnauthorized: false }
+    tls: {
+      // only for local dev; remove on production
+      rejectUnauthorized: false,
+    },
   });
 
   try {
-    // Email to admin
+    await transporter.verify();
+
+    // --- 7) EMAIL TO ADMIN ---
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: "latoreatelier01@gmail.com", // Administrator email
-      subject: "New Contact Form Submission",
+      from: BRAND_FROM,
+      to: ADMIN_EMAIL,
+      replyTo: email || undefined,
+      subject: `New Booking — ${bookingDate || "Date?"} ${bookingTime || ""} — ${firstName || ""} ${lastName || ""}`,
       html: `
-        <!DOCTYPE html>
-        <html lang="uk">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              padding: 16px;
-              color: #333;
-            }
-            img {
-              max-width: 300px;
-              border-radius: 8px;
-            }
-            .highlight {
-              font-weight: bold;
-              color: #4caf50;
-            }
-            .details-list {
-              list-style: none;
-              padding: 0;
-            }
-            .details-list li {
-              margin-bottom: 8px;
-            }
-          </style>
-        </head>
-        <body>
-          <h2>Новий запит від <span class="highlight">${safeFirstName} ${safeLastName}</span></h2>
-          <p><strong>Телефон:</strong> ${safePhone}</p>
+        <!DOCTYPE html><html lang="en"><head>
+          <meta charset="UTF-8" />
+          ${styles}
+        </head><body>
+          <h2>New booking from <span class="highlight">${safeFirstName} ${safeLastName}</span></h2>
           <p><strong>Email:</strong> ${safeEmail}</p>
-          <p><strong>Повідомлення:</strong> ${safeMessage}</p>
+          <p><strong>Phone:</strong> ${safePhone}</p>
+          <p><strong>Message:</strong> ${safeMessage}</p>
+          ${bookingBlock}
           <hr />
-          <h3>Деталі продукту:</h3>
-          <ul class="details-list">
-            <li><strong>Назва:</strong> ${safeProductName}</li>
-            <li><strong>Опис:</strong> ${safeProductDescription}</li>
-            <li><strong>Ціна:</strong> ${safeProductPrice}</li>
-            <li><strong>Колір:</strong> ${safeProductColor}</li>
-            <li><strong>Розмір:</strong> ${safeProductSize}</li>
-            <li><strong>Кількість:</strong> ${safeProductQuantity}</li>
-            <li><strong>SKU:</strong> ${safeProductSKU}</li>
-            ${productImage ? `<li><strong>Фото продукту:</strong><br /><img src="${escape(productImage)}" alt="Фото продукту" /></li>` : "<li>Фото відсутнє</li>"}
-          </ul>
-        </body>
-        </html>
+          <p>This is an automatic notification from the ${BRAND_NAME} website.</p>
+        </body></html>
       `,
     });
 
-    // Email to client
+    // --- 8) EMAIL TO CLIENT ---
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: safeEmail, // Client email
-      subject: "Ваше замовлення отримано!",
+      from: BRAND_FROM,
+      to: email || "no-reply@example.com",
+      subject: "Your booking request has been received!",
       html: `
-        <!DOCTYPE html>
-        <html lang="uk">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              padding: 16px;
-              color: #333;
-            }
-            img {
-              max-width: 300px;
-              border-radius: 8px;
-            }
-            .highlight {
-              font-weight: bold;
-              color: #4caf50;
-            }
-            .details-list {
-              list-style: none;
-              padding: 0;
-            }
-            .details-list li {
-              margin-bottom: 8px;
-            }
-          </style>
-        </head>
-        <body>
-          <h2>Доброго дня, <span class="highlight">${safeFirstName} ${safeLastName}!</span></h2>
-          <p>Ваше замовлення отримано! Дякуємо за звернення.</p>
-          <p>Ось деталі вашого запиту:</p>
+        <!DOCTYPE html><html lang="en"><head>
+          <meta charset="UTF-8" />
+          ${styles}
+        </head><body>
+          <h2>Hello <span class="highlight">${safeFirstName} ${safeLastName}</span>,</h2>
+          <p>Thank you for your booking request at <strong>${BRAND_NAME}</strong>.</p>
+          ${bookingBlock}
+          <p>Our manager will contact you soon at the phone number you provided: <strong>${safePhone}</strong>.</p>
+          <p>If you have any questions, simply reply to this email.</p>
           <hr />
-          <h3>Деталі продукту:</h3>
-          <ul class="details-list">
-            <li><strong>Назва:</strong> ${safeProductName}</li>
-            <li><strong>Опис:</strong> ${safeProductDescription}</li>
-            <li><strong>Ціна:</strong> ${safeProductPrice}</li>
-            <li><strong>Колір:</strong> ${safeProductColor}</li>
-            <li><strong>Розмір:</strong> ${safeProductSize}</li>
-            <li><strong>Кількість:</strong> ${safeProductQuantity}</li>
-            <li><strong>SKU:</strong> ${safeProductSKU}</li>
-            ${productImage ? `<li><strong>Фото продукту:</strong><br /><img src="${escape(productImage)}" alt="Фото продукту" /></li>` : "<li>Фото відсутнє</li>"}
-          </ul>
-          <hr />
-          <p>Наш менеджер зв'яжеться з вами найближчим часом!</p>
-          <p>З повагою, команда Latore Atelier.</p>
-        </body>
-        </html>
+          <p>Best regards,<br />${BRAND_NAME} — Barcelona</p>
+        </body></html>
       `,
     });
 
-    res.status(200).json({ success: true, message: "Email sent to admin and client!" });
+    return res.status(200).json({
+      success: true,
+      message: "Email sent to admin and client!",
+    });
   } catch (error) {
-    console.error("Помилка:", error);
-    res.status(500).json({ success: false, message: "Error sending email" });
+    console.error("SENDMAIL ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: error?.message || "Error sending email",
+      code: error?.code,
+    });
   }
 }

@@ -25,13 +25,20 @@ const ContactUs = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    message: "",
-    productImage: null,
-  });
+  firstName: "",
+  lastName: "",
+  phone: "",
+  email: "",
+  message: "",
+  productImage: null,     // ← залишаємо ОДНУ
+
+  // Бронювання
+  bookingDate: "",
+  bookingTime: "",
+  durationOption: "1",
+  customHours: "",
+});
+
   const [photoPreview, setPhotoPreview] = useState(null);
 
   const handlePhotoChange = (e) => {
@@ -48,6 +55,7 @@ const ContactUs = () => {
   const onFormSubmit = (e) =>
     handleFormSubmit({
       e,
+      formValues, 
       setFormSubmitted,
       setSuccessMessageVisible,
       setFormValues,

@@ -1,7 +1,7 @@
 {
   "EN": {
     "home": {
-      "header": ["HOME", "FAVORITE SPOTS", "ABOUT", "LOVE STORIES (BLOG)", "PRICING", "CONTACT", "ALL",
+      "header": ["HOME", "FAVORITE SPOTS", "ABOUT", "LOVE STORIES", "BOOKING INFO", "BOOKING", "ALL",
         "Gothic Quarter", "Cathedral of Barcelona", "Sagrada Família", "Ciutadella Park", 
         "Parc del Laberint",  "Parc de Montjuïc"
       ],
@@ -251,7 +251,7 @@
   
   "UA": {
     "home": {
-      "header": ["Головна", "Каталог", "Про нас", "Контакти", "Умови",  "Усі",
+      "header": ["Головна", "Каталог", "Про нас", "Бронювання", "Інформація про бронювання",  "Усі",
       "Костюми", "Сукні", "Сорочки", "Спідниці", 
         "Светри", "Брюки", "Жакети", "Топи", "Верхній одяг", "Шорти"
       ],

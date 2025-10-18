@@ -1,64 +1,69 @@
-// Function to handle form submission
+// Надсилаємо дані із state, а не з e.target
 export const handleFormSubmit = async ({
   e,
+  formValues,            // <— ДОДАЛИ
   setFormSubmitted,
   setSuccessMessageVisible,
   setFormValues,
   productData,
 }) => {
   e.preventDefault();
+
   try {
-    const response = await fetch("/api/sendEmail", {
+    const payload = {
+      ...formValues,
+      // підкинь, якщо є вибраний продукт
+      productName: productData?.name || "",
+      productDescription: productData?.description || "",
+      productImage: productData?.image || "",
+      productPrice: productData?.price || "",
+      productColor: productData?.color || "",
+      productSize: productData?.size || "",
+      productQuantity: productData?.quantity || "",
+      productSKU: productData?.sku || "",
+    };
+
+    const res = await fetch("/api/sendEmail", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: e.target.firstName.value,
-        lastName: e.target.lastName.value,
-        phone: e.target.phone.value,
-        email: e.target.email.value,
-        message: e.target.message.value,
-        productName: productData.name,
-        productDescription: productData.description,
-        productImage: productData.image, // Передаємо зображення
-        productPrice: productData.price, // Ціна продукту
-        productColor: productData.color, // Колір продукту
-        productSize: productData.size,   // Розмір продукту
-        productQuantity: productData.quantity, // Кількість
-        productSKU: productData.sku,     // SKU
-      }),
-      
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    if (response.ok) {
-      setFormSubmitted(true);
-      setSuccessMessageVisible(true);
-      alert("Email sent successfully!");
-      setFormValues({
-        firstName: "",
-        lastName: "",
-        phone: "",
-        email: "",
-        message: "",
-      
-      });
-       
-      setTimeout(() => setSuccessMessageVisible(false), 5000);
-    } else {
-      alert("Failed to send email");
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      console.error("API error:", data);
+      alert(data.message || "Failed to send email");
+      return;
     }
+
+    setFormSubmitted(true);
+    setSuccessMessageVisible(true);
+    alert("Email sent successfully!");
+
+    // очистити форму
+    setFormValues((prev) => ({
+      ...prev,
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      message: "",
+      bookingDate: "",
+      bookingTime: "",
+      durationOption: "1",
+      customHours: "",
+    }));
+
+    setTimeout(() => setSuccessMessageVisible(false), 5000);
   } catch (error) {
     console.error("Error sending email:", error);
-    alert("Error occurred");
+    alert(error?.message || "Error occurred");
   }
 };
 
-// Function to handle changes in form values
+// як було — залишай
 export const handleInputChange = (e, setFormValues) => {
-  const { name, value } = e.target; // Get the name and value of the changed field
-  setFormValues((prevValues) => ({
-    ...prevValues, 
-    [name]: value, 
-  }));
+  const { name, value } = e.target;
+  setFormValues((prev) => ({ ...prev, [name]: value }));
 };

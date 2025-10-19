@@ -1,31 +1,34 @@
-const galleryJsonLd = (products) => ({
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000")
+  .replace(/\/$/, "");
+
+/**
+ * Schema.org ItemList for your “Gallery / Favorite Spots”
+ * @param {Array} locations
+ */
+const galleryJsonLd = (locations = []) => ({
   "@context": "https://schema.org",
   "@type": "ItemList",
-  itemListElement: products.map((product, index) => ({
-    "@type": "Product",
-    identifier: product.id, // Унікальний ідентифікатор
-    name: product.translations?.EN?.name || "Unnamed Product", // Назва продукту
-    image: product.image
-      ? {
-          "@type": "ImageObject",
-          url: `https://www.latore.shop?id=${product.image}`,
-          width: 1200,
-          height: 628,
-          caption: product.translations?.EN?.name || "Unnamed Product",
-        }
-      : undefined,
-    description: product.translations?.EN?.description || "No description available", // Опис продукту
-    sku: product.sku || "N/A", // SKU продукту
-    offers: {
-      "@type": "Offer",
-      price: product.discountPrice || product.price, // Ціна
-      priceCurrency: "UAH",
-      availability: "https://schema.org/InStock", // Доступність
+  name: "Photo Gallery — Pic Best Moments",
+  description:
+    "Explore beautiful photo spots and sessions captured in Barcelona by Pic Best Moments photographer.",
+  url: `${SITE_URL}/gallery`,
+  itemListOrder: "https://schema.org/ItemListOrderAscending",
+  numberOfItems: locations.length,
+  itemListElement: locations.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `${SITE_URL}/gallery/${item?.slug ?? index}`,
+    item: {
+      "@type": "ImageObject",
+      name: item?.title || "Beautiful photo location",
+      description: item?.description || "Captured moment in Barcelona.",
+      contentUrl: `${SITE_URL}${item?.image || "/placeholder.jpg"}`,
+      width: 1200,
+      height: 800,
+      author: { "@type": "Person", name: "Pic Best Moments Photographer" },
+      locationCreated: { "@type": "Place", name: item?.location || "Barcelona" },
+      datePublished: item?.date || "2025-01-01",
     },
-    category: product.category || "General", // Категорія
-    color: product.colors?.join(", "), // Кольори
-    size: product.sizes?.join(", "), // Розміри
-    itemCondition: "https://schema.org/NewCondition", // Стан продукту
   })),
 });
 

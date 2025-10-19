@@ -1,30 +1,33 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("Error:", error, errorInfo);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('ErrorBoundary caught an error:', error, errorInfo);
+    }
   }
 
   render() {
     if (this.state.hasError) {
       return (
         <div style={{ textAlign: 'center', padding: '50px' }}>
-          <h1>Щось пішло не так.</h1>
-          <p>Ми вже працюємо над вирішенням цієї проблеми.</p>
+          <h1>Something went wrong.</h1>
+          <p>We’re already working on fixing this issue.</p>
           <Link href="/" className="text-blue-600 underline">
-  Повернутися на головну
-</Link>
-         
+            Go back to Home
+          </Link>
         </div>
       );
     }
@@ -34,3 +37,4 @@ class ErrorBoundary extends React.Component {
 }
 
 export default ErrorBoundary;
+

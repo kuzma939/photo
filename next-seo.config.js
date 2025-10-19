@@ -1,124 +1,117 @@
-const seoConfig = { 
-  contact: {
-    title: "Контакти | Магазин жіночого одягу",
-    description: "Контактна сторінка для запитів та зв'язку.",
+import LoveStoryPage from "./src/app/love-story/page";
+
+const SITE_URL =
+  (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+
+const url = (path = "/") => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+const img = (path = "/logo-social.jpg") => url(path);
+
+const BRAND = "Pic Best Moments";
+
+// Універсальний дефолт
+const seoConfig = {
+  defaults: {
+    title: `${BRAND} — Photographer in Barcelona`,
+    description:
+      "Professional photo sessions in Barcelona: couples, love stories, families, portraits. Easy booking and transparent pricing.",
     openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/contact",
-      title: "Контакти | Магазин жіночого одягу",
-      description: "Отримайте контактну інформацію для вашого запиту.",
+      url: SITE_URL,
+      title: `${BRAND} — Photographer in Barcelona`,
+      description:
+        "Professional photo sessions in Barcelona: couples, love stories, families, portraits. Easy booking and transparent pricing.",
+      type: "website",
+      images: [{ url: img("/logo-social.jpg"), width: 1200, height: 628, alt: BRAND }],
+    },
+    canonical: SITE_URL,
+    robots: "index, follow",
+  },
+
+  // Contact / Booking page
+  contact: {
+    title: "Contact & Booking | Pic Best Moments",
+    description: "Book your photo session in Barcelona: pick date, time and duration. We reply within 24 hours.",
+    openGraph: {
+      url: url("/contact"),
+      title: "Contact & Booking | Pic Best Moments",
+      description: "Book your photo session in Barcelona: pick date, time and duration.",
+      type: "website",
+      images: [{ url: img("/og/contact.jpg"), width: 1200, height: 628, alt: "Contact & Booking" }],
+    },
+    canonical: url("/contact"),
+    robots: "index, follow",
+  },
+
+  // Love Stories (портфоліо парних зйомок)
+  loveStory: {
+    title: "Love Stories | Pic Best Moments",
+    description: "Romantic couple photo sessions in Barcelona. Explore our love story portfolio.",
+    openGraph: {
+      url: url("/love-stories"),
+      title: "Love Stories | Pic Best Moments",
+      description: "Romantic couple photo sessions in Barcelona.",
+      images: [{ url: img("/og/love-stories.jpg"), width: 1200, height: 628, alt: "Love Stories" }],
+    },
+    canonical: url("/love-stories"),
+    robots: "index, follow",
+  },
+
+  // Gallery (загальна галерея робіт)
+  gallery: {
+    title: "Gallery | Pic Best Moments",
+    description: "A curated gallery of photo sessions captured around Barcelona.",
+    openGraph: {
+      url: url("/gallery"),
+      title: "Gallery | Pic Best Moments",
+      description: "A curated gallery of photo sessions captured around Barcelona.",
+      images: [{ url: img("/og/gallery.jpg"), width: 1200, height: 628, alt: "Gallery" }],
+    },
+    canonical: url("/gallery"),
+    robots: "index, follow",
+  },
+
+  // Favorite Spots / Gallery Locations
+  favoriteSpots: {
+    title: "Favorite Spots in Barcelona | Pic Best Moments",
+    description: "Best photo locations in Barcelona with real session examples and tips.",
+    openGraph: {
+      url: url("/favorite-spots"),
+      title: "Favorite Spots in Barcelona | Pic Best Moments",
+      description: "Best photo locations in Barcelona with real session examples and tips.",
+      images: [{ url: img("/og/favorite-spots.jpg"), width: 1200, height: 628, alt: "Favorite Spots" }],
+    },
+    canonical: url("/favorite-spots"),
+    robots: "index, follow",
+  },
+
+  // Terms & Conditions
+  conditions: {
+    title: "Terms & Conditions | Pic Best Moments",
+    description: "Read our Terms & Conditions and Privacy Policy.",
+    openGraph: {
+      url: url("/conditions"),
+      title: "Terms & Conditions | Pic Best Moments",
+      description: "Read our Terms & Conditions and Privacy Policy.",
+      images: [{ url: img("/og/conditions.jpg"), width: 1200, height: 628, alt: "Terms & Conditions" }],
+    },
+    canonical: url("/conditions"),
+    robots: "index, follow",
+  },
+  allProducts: {
+    title: "Favorite Spots — PBM",
+    description: "Best photo spots in Barcelona.",
+    openGraph: {
+      url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/favorite-spots`,
+      title: "Favorite Spots — PBM",
+      description: "Best photo spots in Barcelona.",
       type: "website",
       images: [
-        { 
-          url: "https://shoopingsite-my9e.vercel.app/logo-social.jpg", // Додаємо повний шлях до зображення
-          width: 1200, // Рекомендовані розміри
-          height: 628,
-          alt: "Contact Page Image" // Альтернативний текст
-        }
+        { url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/logo-social.jpg`, width: 1200, height: 628, alt: "PBM" }
       ]
     },
-    canonical: "https://shoopingsite-my9e.vercel.app/contact",
-    robots: "index, follow"
-  },
-loveStory: {
-  title: "Love Story | Магазин жіночого одягу",
-  description: "Найромантичніші образи, натхненні коханням. Ексклюзивні луки для закоханих пар.",
-  openGraph: {
-    url: "https://shoopingsite-my9e.vercel.app/love-story",
-    title: "Love Story | Магазин жіночого одягу",
-    description: "Найромантичніші образи, натхненні коханням. Ексклюзивні луки для закоханих пар.",
-    images: [
-      { 
-        url: "https://shoopingsite-my9e.vercel.app/love-story-preview.jpg",
-        width: 1200,
-        height: 628,
-        alt: "Love Story Preview Image"
-      }
-    ]
-  },
-  canonical: "https://shoopingsite-my9e.vercel.app/love-story",
-  robots: "index, follow"
-},
-
-
-  gallery: {
-    title: "Галерея | Магазин жіночого одягу",
-    description: "Дивіться нашу галерею та популярні колекції.",
-    openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/gallery",
-      title: "Галерея | Магазин жіночого одягу",
-      description: "Наша галерея для стильних образів.",
-      images: [
-        {
-          url: "https://shoopingsite-my9e.vercel.app/gallery-preview.jpg",
-          width: 1200,
-          height: 628,
-          alt: "Gallery Page Image"
-        }
-      ]
-    },
-    canonical: "https://shoopingsite-my9e.vercel.app/gallery",
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/favorite-spots`,
     robots: "index, follow"
   },
 
-  conditions: {
-    title: "Умови користування | Магазин жіночого одягу",
-    description: "Перегляньте наші умови користування та політику конфіденційності.",
-    openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/conditions",
-      title: "Умови користування | Магазин жіночого одягу",
-      description: "Важлива інформація щодо умов користування сервісом.",
-      images: [
-        { 
-          url: "https://shoopingsite-my9e.vercel.app/conditions-preview.jpg",
-          width: 1200,
-          height: 628,
-          alt: "Conditions Page Image"
-        }
-      ]
-    },
-    canonical: "https://shoopingsite-my9e.vercel.app/conditions",
-    robots: "index, follow"
-  },
-
-  allProducts: {
-    title: "Всі товари | Магазин жіночого одягу",
-    description: "Перегляньте всі доступні товари нашого магазину.",
-    openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/all-products",
-      title: "Всі товари | Магазин жіночого одягу",
-      description: "Дізнайтеся більше про наші колекції жіночого одягу.",
-      images: [
-        { 
-          url: "https://shoopingsite-my9e.vercel.app/all-products-preview.jpg",
-          width: 1200,
-          height: 628,
-          alt: "All Products Page Image"
-        }
-      ]
-    },
-    canonical: "https://shoopingsite-my9e.vercel.app/all-products",
-    robots: "index, follow"
-  },
-
-  galleryLocations: {
-    title: "Галерея локацій | Магазин жіночого одягу",
-    description: "Дивіться наші локації та популярні фотосесії.",
-    openGraph: {
-      url: "https://shoopingsite-my9e.vercel.app/gallery-locations-page",
-      title: "Галерея локацій | Магазин жіночого одягу",
-      description: "Галерея локацій для стильних образів.",
-      images: [
-        {
-          url: "https://shoopingsite-my9e.vercel.app/gallery-locations-page-preview.jpg",
-          width: 1200,
-          height: 628,
-          alt: "Gallery Locations Page Image"
-        }
-      ]
-    },
-    canonical: "https://shoopingsite-my9e.vercel.app/gallery-locations-page",
-    robots: "index, follow"
-  }
 };
 
 export default seoConfig;

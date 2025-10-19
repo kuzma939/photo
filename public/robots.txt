@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://shoopingsite-my9e.vercel.app/
+Host: https://www.pick-best-moment.com
 
 # Sitemaps
-Sitemap: https://shoopingsite-my9e.vercel.app/sitemap.xml
+Sitemap: https://www.pick-best-moment.com/sitemap.xml

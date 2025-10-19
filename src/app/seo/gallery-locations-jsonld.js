@@ -1,24 +1,40 @@
-const generateProductsJsonLd = (products) => {
-  console.log(products);
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: products.map((product, index) => ({
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000")
+  .replace(/\/$/, "");
+
+/**
+ * Schema.org ItemList for “Favorite Spots / Gallery Locations”
+ * @param {Array} locations  [{ slug?, id?, title?, description?, image?, location?, date? }]
+ */
+const generateGalleryLocationsJsonLd = (locations = []) => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Favorite Photo Spots — Pic Best Moments",
+  description:
+    "A curated list of the best photo spots and sessions in Barcelona by Pic Best Moments.",
+  url: `${SITE_URL}/favorite-spots`,
+  itemListOrder: "https://schema.org/ItemListOrderAscending",
+  numberOfItems: locations.length,
+  itemListElement: locations.map((item, index) => {
+    const slugOrId = item?.slug || item?.id || index;
+    const pageUrl = `${SITE_URL}/favorite-spots/${slugOrId}`;
+
+    return {
       "@type": "ListItem",
       position: index + 1,
-      url: `https://www.latore.shop/GalleryLocationsPage?productId=${product.id}`,
-      name: product.translations?.EN?.name || "Unnamed Product", // Назва продукту
-      image: {
+      url: pageUrl,
+      item: {
         "@type": "ImageObject",
-        url: product.image || "https://www.latore.shop/logo-social.jpg", // Зображення продукту
-        width: 1200, // Рекомендована ширина
-        height: 628, // Рекомендована висота
-        caption: product.translations?.EN?.name || "Unnamed Product", // Альтернативний текст
+        name: item?.title || "Photo location",
+        description: item?.description || "Beautiful photo location in Barcelona.",
+        contentUrl: `${SITE_URL}${item?.image || "/logo-social.jpg"}`,
+        width: 1200,
+        height: 800,
+        author: { "@type": "Person", name: "Pic Best Moments Photographer" },
+        locationCreated: { "@type": "Place", name: item?.location || "Barcelona" },
+        datePublished: item?.date || "2025-01-01",
       },
-      description: product.translations?.EN?.description || "No description available", // Опис продукту
-    
-    })),
-  };
-};
+    };
+  }),
+});
 
-export default generateProductsJsonLd;
+export default generateGalleryLocationsJsonLd;

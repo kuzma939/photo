@@ -96,7 +96,7 @@ function HeroSlider({ compact = false }) {
       </div>
 
       {/* кнопки */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-4 button">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-4 button z-50">
         <button
           onClick={prev}
           disabled={!canPrev}
@@ -223,7 +223,7 @@ function HeroSlider({ compact = false }) {
     .pos-0 .content { display: block; }
 
     .name {
-      font-size: 14px !important;
+      font-size: 34px !important;
       line-height: 1.2 !important;
       font-weight: 600 !important;
       text-transform: none !important;
@@ -234,7 +234,7 @@ function HeroSlider({ compact = false }) {
     }
 
     .des {
-      font-size: 11px !important;
+      font-size: 26px !important;
       line-height: 1.3 !important;
       margin: 4px 0 10px !important;
       color: #f2f2f2 !important;
@@ -247,7 +247,7 @@ function HeroSlider({ compact = false }) {
     }
 
     .cta {
-      font-size: 11px !important;
+      font-size: 16px !important;
       padding: 6px 10px !important;
       border-radius: 8px !important;
       background: rgba(0,0,0,0.9);

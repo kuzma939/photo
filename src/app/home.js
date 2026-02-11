@@ -1,3 +1,5 @@
+"use client";
+
 import Hero from "./components/Hero/Hero.jsx";
 import Gallery from "./components/Gallery/Gallery";
 import FollowUs from "./components/Follow/Follow.jsx";

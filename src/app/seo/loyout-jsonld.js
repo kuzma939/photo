@@ -50,3 +50,56 @@ export const organizationJsonLd = {
     ],
   },
 };
+
+/**
+ * 🔹 LocalBusiness schema for Barcelona local SEO
+ */
+export const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": SITE_URL,
+  name: "Pic Best Moments",
+  image: `${SITE_URL}/logo-social.jpg`,
+  url: SITE_URL,
+  telephone: "+34 600 123 456",
+  email: "photographbusiness01@gmail.com",
+  priceRange: "€€",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Barcelona",
+    addressRegion: "Catalonia",
+    addressCountry: "ES",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 41.3851,
+    longitude: 2.1734,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "09:00",
+      closes: "20:00",
+    },
+  ],
+  sameAs: [
+    "https://www.instagram.com/pic.best.moments/",
+    "https://www.facebook.com/pic.best.moments",
+  ],
+  description:
+    "Professional photography service in Barcelona specializing in love stories, couple sessions, weddings, and family photo sessions.",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: "50",
+  },
+};

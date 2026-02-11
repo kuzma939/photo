@@ -1,6 +1,6 @@
 
 import Script from "next/script";
-import { siteJsonLd, organizationJsonLd } from "./seo/loyout-jsonld"; 
+import { siteJsonLd, organizationJsonLd, localBusinessJsonLd } from "./seo/loyout-jsonld"; 
 import { ThemeProvider } from "./contexts/ThemeContext";
 import "./globals.css";
 import ErrorBoundary from "../app/components/ErrorBoundary/ErrorBoundary";
@@ -12,7 +12,10 @@ const SITE_URL =
 // ---------- Metadata (App Router) ----------
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Pic Best Moments — Photographer in Barcelona",
+  title: {
+    default: "Pic Best Moments — Photographer in Barcelona",
+    template: "%s | Pic Best Moments",
+  },
   description:
     "Professional photographer in Barcelona capturing love stories, family moments and portraits. Easy booking and transparent pricing.",
   applicationName: "Pic Best Moments",
@@ -22,6 +25,9 @@ export const metadata = {
     "family photos",
     "portrait photographer",
     "photo session Barcelona",
+    "couple photography Barcelona",
+    "wedding photographer Barcelona",
+    "professional photography",
   ],
   authors: [{ name: "Pic Best Moments", url: SITE_URL }],
   creator: "Pic Best Moments",
@@ -30,6 +36,7 @@ export const metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Pic Best Moments",
+    locale: "en_US",
     title: "Pic Best Moments — Photographer in Barcelona",
     description:
       "Professional photo sessions in Barcelona: couples, love stories, families, portraits.",
@@ -42,14 +49,27 @@ export const metadata = {
       "Professional photo sessions in Barcelona: couples, love stories, families, portraits.",
     images: ["/logo-social.jpg"],
   },
-  robots: { index: true, follow: true },
-  // Якщо треба верифікація Google:
-  // verification: { google: "g_0gD_liwrkkTj-WviMVpLi56EWXTq9nEfPl-uJU72s" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  // If you need Google verification, uncomment and add your code:
+  // verification: { google: "your-google-verification-code" },
   icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
 };
 
@@ -66,6 +86,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
 
         {/* ✅ Google Analytics — підстав свій ID або забери блок якщо не потрібен */}

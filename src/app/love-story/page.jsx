@@ -1,47 +1,37 @@
-"use client"; // Оголошуємо файл як Client Component
-
-import dynamic from "next/dynamic";
-import Head from "next/head";
 import Script from "next/script";
+import Layout from "../components/Layout";
+import LoveGallery from "../components/LoveStoryInffo/LoveStoryInffo";
 import loveJsonLd from "../seo/love-jsonld";
-import products from "../data/products"; // Загальний масив продуктів
+import products from "../data/products";
 import seoConfig from "../../../next-seo.config";
 
-// Динамічний імпорт компонентів
-const Layout = dynamic(() => import("../components/Layout"), { ssr: false });
-const LoveGallery = dynamic(() => import("../components/LoveStoryInffo/LoveStoryInffo"), {
-  ssr: false,
-  loading: () => <div>Loading love story...</div>, // Резервний стан
-});
+// SEO Metadata for Love Story page
+export async function generateMetadata() {
+  return {
+    title: seoConfig.loveStory.title,
+    description: seoConfig.loveStory.description,
+    keywords: seoConfig.loveStory.keywords,
+    openGraph: seoConfig.loveStory.openGraph,
+    twitter: seoConfig.loveStory.twitter,
+    alternates: {
+      canonical: seoConfig.loveStory.canonical,
+    },
+    robots: seoConfig.loveStory.robots,
+  };
+}
 
 export default function LoveStoryPage() {
   const loveProducts = products;
-  const jsonLd = loveJsonLd(loveProducts); // SEO-дані для love-story
-  const seo = seoConfig.loveStory; // (додай loveStory в seo config)
+  const jsonLd = loveJsonLd(loveProducts);
 
   return (
     <div className="transition-colors">
-      {/* SEO-метатеги */}
-      <Head>
-        <title>{seo.title}</title>
-        <meta name="description" content={seo.description} />
-        <meta property="og:title" content={seo.openGraph.title} />
-        <meta property="og:description" content={seo.openGraph.description} />
-        <meta property="og:url" content={seo.openGraph.url} />
-        <meta property="og:type" content={seo.openGraph.type} />
-        <meta property="og:image" content={seo.openGraph.images[0].url} />
-        <link rel="canonical" href={seo.canonical} />
-        <meta name="robots" content={seo.robots} />
-      </Head>
-
-      {/* JSON-LD для SEO */}
       <Script
         id="love-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Динамічний рендеринг компонентів */}
       <Layout>
         <LoveGallery />
       </Layout>

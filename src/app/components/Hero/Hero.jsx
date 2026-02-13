@@ -43,8 +43,8 @@ export default function Hero() {
 function HeroSlider({ compact = false }) {
   const slides = useMemo(
     () => [
-      { title: 'Barcel', description: 'Experience the mystical Highlands under twilight skies and misty lochs.', image: '/Barceloneta/10.avif', href: '/booking-info' },
-      { title: 'Sagrada', description: 'Chase the Northern Lights under star-lit skies along scenic fjord roads.', image: '/Sagrada/3.avif', href: '/booking-info' },
+      { title: 'Barceloneta', description: 'Experience the mystical Highlands under twilight skies and misty lochs.', image: '/Barceloneta/10.avif', href: '/booking-info' },
+      { title: 'Sagr', description: 'Chase the Northern Lights under star-lit skies along scenic fjord roads.', image: '/Sagrada/3.avif', href: '/booking-info' },
       { title: 'New Zealand', description: 'Wander dramatic, mist-laden mountain paths that feel straight out of a dream.', image: 'https://images.unsplash.com/photo-1483982258113-b72862e6cff6?q=80&w=1170&auto=format&fit=crop', href: '/booking-info' },
       { title: 'Japan', description: 'Discover serene mountain temples shrouded in dusk and ancient forest trails.', image: '/Gothic/JAPAN/1.avif', href: '/booking-info' },
     ],
